@@ -1,0 +1,1990 @@
+
+<!DOCTYPE html>
+<html lang="id">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta name="theme-color" content="#0b0d14">
+  <meta name="description" content="STRANGER - Temukan koneksi baru dan bagikan ceritamu.">
+  <title>STRANGER</title>
+  <link rel="stylesheet" href="style.css">
+
+  <style>
+    #socialScreen {
+      min-height: 100vh;
+      background: var(--bg, #090b12);
+      color: #f5f6fa;
+      padding-bottom: 86px;
+    }
+    .social-header {
+      position: sticky;
+      top: 0;
+      z-index: 20;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      padding: 15px 18px;
+      background: rgba(9,11,18,.94);
+      border-bottom: 1px solid rgba(255,255,255,.07);
+      backdrop-filter: blur(16px);
+    }
+    .social-brand { display:flex;align-items:center;gap:9px;font-weight:800;letter-spacing:2px;font-size:14px }
+    .social-brand-icon {
+      width:31px;height:31px;border-radius:10px;display:grid;place-items:center;
+      background:#8b7cff;color:white;font-weight:900;font-size:18px;
+    }
+    .social-header-actions { display:flex;align-items:center;gap:12px }
+    .social-icon-btn,.social-avatar-btn {
+      border:0;background:#171c2b;color:#fff;width:39px;height:39px;border-radius:50%;
+      display:grid;place-items:center;font-size:18px;cursor:pointer;
+    }
+    .social-avatar-btn { overflow:hidden;font-size:14px;font-weight:800;background:#8b7cff }
+    .social-avatar-btn img { width:100%;height:100%;object-fit:cover }
+    .social-wrap { width:min(680px,100%);margin:auto;padding:18px 14px }
+    .social-welcome {
+      padding:21px;border:1px solid rgba(255,255,255,.08);border-radius:19px;
+      background:linear-gradient(135deg,#171c2b,#111522);margin-bottom:20px;
+    }
+    .social-welcome h2 { margin:0 0 7px;font-size:21px }
+    .social-welcome p { margin:0;color:#a8afc1;font-size:13px;line-height:1.6 }
+    .social-create-btn {
+      width:100%;margin-top:17px;border:0;border-radius:12px;padding:13px;
+      background:#8b7cff;color:white;font-weight:750;font-size:14px;cursor:pointer;
+    }
+    .social-section-title { font-size:16px;font-weight:800;margin:22px 3px 13px }
+    .social-post {
+      background:#111522;border:1px solid rgba(255,255,255,.07);
+      border-radius:17px;margin-bottom:15px;overflow:hidden;
+    }
+    .social-post-head { display:flex;align-items:center;gap:10px;padding:15px 15px 10px }
+    .social-post-avatar {
+      width:39px;height:39px;border-radius:50%;display:grid;place-items:center;
+      background:#252d43;color:#d9d5ff;font-weight:800;flex-shrink:0;
+    }
+    .social-post-user { min-width:0;flex:1 }
+    .social-post-user strong { display:block;font-size:13px }
+    .social-post-user span { display:block;color:#858da2;font-size:11px;margin-top:3px }
+    .social-post-text { padding:2px 15px 15px;font-size:14px;line-height:1.7;color:#e1e4ed;white-space:pre-wrap }
+    .social-post-image { width:100%;max-height:340px;object-fit:cover;display:block;background:#202638 }
+    .social-post-actions { display:flex;gap:20px;padding:12px 15px;border-top:1px solid rgba(255,255,255,.06) }
+    .social-post-actions button {
+      border:0;background:none;color:#aeb5c6;font-size:13px;cursor:pointer;padding:3px 0;
+    }
+    .social-post-actions button.liked { color:#ff7198 }
+    .social-comments { padding:0 15px 13px }
+    .social-comment { font-size:12px;color:#b9c0d0;padding:7px 0;border-top:1px solid rgba(255,255,255,.05) }
+    .social-comment strong { color:#fff;margin-right:5px }
+    .social-empty { padding:36px 15px;text-align:center;color:#929bad;font-size:13px;line-height:1.7 }
+    .social-empty-icon {
+      width:64px;height:64px;margin:0 auto 14px;border-radius:50%;
+      display:grid;place-items:center;background:#171c2b;color:#a99cff;
+      font-size:30px;
+    }
+    .social-bottom-nav {
+      position:fixed;bottom:0;left:0;right:0;z-index:30;
+      display:flex;justify-content:space-around;align-items:center;
+      padding:9px 5px calc(9px + env(safe-area-inset-bottom));
+      background:rgba(15,19,30,.97);border-top:1px solid rgba(255,255,255,.09);
+      backdrop-filter:blur(16px);
+    }
+    .social-nav-btn {
+      border:0;background:none;color:#858da2;display:flex;flex-direction:column;
+      align-items:center;gap:4px;font-size:10px;min-width:54px;cursor:pointer;
+    }
+    .social-nav-btn span:first-child { font-size:20px;line-height:22px }
+    .social-nav-btn.active { color:#a99cff }
+    .social-nav-create span:first-child {
+      width:35px;height:35px;border-radius:12px;background:#8b7cff;color:white;
+      display:grid;place-items:center;font-size:23px;
+    }
+    .social-profile-card {
+      padding:22px;background:#111522;border:1px solid rgba(255,255,255,.08);
+      border-radius:18px;text-align:center;
+    }
+    .social-profile-avatar {
+      width:76px;height:76px;margin:0 auto 12px;border-radius:50%;
+      display:grid;place-items:center;background:#8b7cff;font-size:26px;font-weight:800;
+    }
+    .social-profile-card h2 { font-size:17px;margin:0 0 6px }
+    .social-profile-card p { color:#929bad;font-size:12px;word-break:break-word }
+    .social-menu-btn {
+      width:100%;padding:14px;margin-top:10px;border-radius:12px;
+      background:#171c2b;border:1px solid rgba(255,255,255,.07);
+      color:#fff;text-align:left;font-size:13px;cursor:pointer;
+    }
+    .social-menu-btn.danger { color:#ff8496 }
+    .social-page { display:none }
+    .social-page.active { display:block }
+    .social-form textarea,.social-form input {
+      width:100%;box-sizing:border-box;padding:13px;border-radius:11px;
+      background:#171c2b;border:1px solid #30384d;color:#fff;font:inherit;
+      margin:7px 0 13px;
+    }
+    .social-form textarea { min-height:120px;resize:vertical }
+    .social-form label { color:#b8bfd0;font-size:12px }
+    .social-form button {
+      width:100%;border:0;border-radius:11px;padding:13px;background:#8b7cff;
+      color:#fff;font-weight:750;cursor:pointer;
+    }
+    .social-notice { color:#9da6ba;font-size:12px;line-height:1.6;padding:12px 3px }
+    .otp-input { text-align:center;letter-spacing:9px;font-size:23px;font-weight:800 }
+    .otp-secondary {
+      border:0;background:transparent;color:#a99cff;padding:12px;cursor:pointer;width:100%;
+    }
+    .social-page-heading { font-size:19px;font-weight:800;margin:8px 0 17px }
+  </style>
+</head>
+
+<body>
+  <main class="app">
+
+    <section id="homeScreen" class="screen active">
+      <div class="home">
+        <div class="brand-mark">
+          <div class="brand-icon">S</div>
+          <span>STRANGER</span>
+        </div>
+
+        <div class="home-content">
+          <div class="home-eyebrow">
+            <span class="online-dot"></span>
+            ANONYMOUS CONNECTION
+          </div>
+
+          <h1>Meet someone.<br><span>Be yourself.</span></h1>
+          <p>Temukan teman baru, berbagi cerita, dan mulai percakapan tanpa tekanan.</p>
+
+          <div id="accountStatusCard" class="account-status-card" hidden>
+            <span class="account-status-icon">✓</span>
+            <div class="account-status-info">
+              <strong id="accountStatusTitle">Akun aktif</strong>
+              <span id="accountStatusText">Kamu sudah masuk ke STRANGER.</span>
+            </div>
+          </div>
+
+          <div id="accountActions" class="account-actions">
+            <button id="loginBtn" class="account-btn login-btn" type="button">Masuk</button>
+            <button id="registerBtn" class="account-btn register-btn" type="button">Daftar</button>
+          </div>
+
+          <div id="orDivider" class="or-divider">
+            <span></span>
+            <small>ATAU LANJUT TANPA AKUN</small>
+            <span></span>
+          </div>
+
+          <button id="startBtn" class="main-btn" type="button">
+            <span>Random Chat</span>
+            <span class="button-arrow">→</span>
+          </button>
+
+          <div id="searchPanel" class="search-panel" hidden>
+            <span class="search-spinner"></span>
+            <div class="search-panel-text">
+              <strong>Sedang mencari seseorang...</strong>
+              <span id="searchStatusText">Mohon tunggu sebentar.</span>
+            </div>
+          </div>
+
+          <div class="anonymous-note">
+            <span class="privacy-icon">◈</span>
+            Tidak perlu daftar untuk mulai mengobrol
+          </div>
+
+          <div id="homeStatus" class="status"></div>
+        </div>
+
+        <div class="home-footer">
+          <div class="footer-links">
+            <button class="footer-link" data-legal="privacy">Kebijakan Privasi</button>
+            <span>·</span>
+            <button class="footer-link" data-legal="rules">Aturan Penggunaan</button>
+            <span>·</span>
+            <button class="footer-link" data-legal="about">Tentang STRANGER</button>
+          </div>
+          <div class="footer-copy">© 2026 STRANGER. All rights reserved.</div>
+          <div class="footer-slogan">ANONYMOUS · RANDOM · REAL</div>
+        </div>
+      </div>
+    </section>
+
+    <section id="chatScreen" class="screen">
+      <header class="chat-header">
+        <div class="chat-brand">
+          <div class="brand-icon small">S</div>
+          <div class="chat-brand-text">
+            <h2>STRANGER</h2>
+            <span class="chat-subtitle">Anonymous chat</span>
+          </div>
+        </div>
+        <div class="connection-indicator">
+          <span class="online-dot"></span>
+          <span id="chatStatus">Terhubung</span>
+        </div>
+      </header>
+
+      <div class="chat-intro">
+        <span class="chat-intro-line"></span>
+        <span>YOU ARE NOW CONNECTED</span>
+        <span class="chat-intro-line"></span>
+      </div>
+
+      <div id="messages" class="messages"></div>
+      <div id="chatNotice" class="chat-notice status"></div>
+
+      <div class="bottom-panel">
+        <div id="replyPreview" class="reply-preview" hidden>
+          <div class="reply-preview-content">
+            <span id="replySender" class="reply-sender">Membalas pesan</span>
+            <span id="replyText" class="reply-text"></span>
+          </div>
+          <button id="cancelReplyBtn" class="cancel-reply-btn" type="button" aria-label="Batalkan balasan">×</button>
+        </div>
+
+        <div class="chat-input">
+          <input id="messageInput" type="text" maxlength="1000" placeholder="Tulis pesan..." autocomplete="off">
+          <button id="sendBtn" class="send-btn" type="button" aria-label="Kirim pesan">↑</button>
+        </div>
+
+        <div class="bottom-toolbar">
+          <span class="privacy-label">
+            <span class="privacy-icon">◈</span>
+            Percakapan anonim
+          </span>
+          <details class="chat-actions">
+            <summary><span class="menu-icon">•••</span> Opsi percakapan</summary>
+            <div class="action-menu">
+              <button id="reportBtn" class="end-btn" type="button"><span>⚑</span>Laporkan pengguna</button>
+              <button id="nextBtn" class="next-btn" type="button"><span>↻</span>Cari orang baru</button>
+              <button id="endBtn" class="end-btn" type="button"><span>×</span>Akhiri percakapan</button>
+            </div>
+          </details>
+        </div>
+      </div>
+    </section>
+
+    <section id="socialScreen" class="screen">
+      <header class="social-header">
+        <div class="social-brand">
+          <div class="social-brand-icon">S</div>
+          <span>STRANGER</span>
+        </div>
+        <div class="social-header-actions">
+          <button class="social-icon-btn" id="headerNotificationBtn" type="button" aria-label="Notifikasi">♧</button>
+          <button class="social-avatar-btn" id="headerProfileBtn" type="button" aria-label="Profil">S</button>
+        </div>
+      </header>
+
+      <div class="social-wrap">
+        <div id="socialHomePage" class="social-page active">
+          <div class="social-welcome">
+            <h2 id="socialGreeting">Halo!</h2>
+            <p>Apa yang ingin kamu bagikan hari ini?</p>
+          </div>
+          <div class="social-section-title">Cerita dari orang lain</div>
+          <div id="socialFeed"></div>
+        </div>
+
+        <div id="socialExplorePage" class="social-page">
+          <div class="social-page-heading">Jelajahi</div>
+          <div id="exploreFeed"></div>
+        </div>
+
+        <div id="socialCreatePage" class="social-page">
+          <div class="social-page-heading">Buat Postingan</div>
+          <form id="socialPostForm" class="social-form">
+            <label for="socialPostContent">Apa yang ingin kamu ceritakan?</label>
+            <textarea id="socialPostContent" maxlength="2000" placeholder="Tulis cerita, pemikiran, atau pengalamanmu..." required></textarea>
+            <label for="socialPostImage">URL foto (opsional)</label>
+            <input id="socialPostImage" type="url" placeholder="https://...">
+            <button type="submit" id="publishPostBtn">Publikasikan</button>
+            <p class="social-notice" id="postFormNotice">Postingan akan tampil di perangkat ini. Fitur publikasi ke server belum tersedia.</p>
+          </form>
+        </div>
+
+        <div id="socialNotificationsPage" class="social-page">
+          <div class="social-page-heading">Notifikasi</div>
+          <div class="social-empty">
+            <div class="social-empty-icon">♧</div>
+            Belum ada notifikasi baru.
+          </div>
+        </div>
+
+        <div id="socialProfilePage" class="social-page">
+          <div class="social-page-heading">Profil</div>
+          <div class="social-profile-card">
+            <div class="social-profile-avatar" id="profileAvatar">S</div>
+            <h2 id="profileEmail">Pengguna STRANGER</h2>
+            <p id="profileUserEmail"></p>
+            <p>Status: Akun aktif</p>
+          </div>
+          <button class="social-menu-btn" id="profileHomeBtn" type="button">⌂ Kembali ke Home</button>
+          <button class="social-menu-btn" id="profileEditBtn" type="button">Edit Profil</button>
+          <button class="social-menu-btn danger" id="logoutBtn" type="button">Keluar dari STRANGER</button>
+        </div>
+      </div>
+
+      <nav class="social-bottom-nav" aria-label="Navigasi sosial">
+        <button class="social-nav-btn active" data-social-page="socialHomePage" type="button">
+          <span>⌂</span><span>Home</span>
+        </button>
+        <button class="social-nav-btn" data-social-page="socialExplorePage" type="button">
+          <span>⌕</span><span>Jelajahi</span>
+        </button>
+        <button class="social-nav-btn social-nav-create" data-social-page="socialCreatePage" type="button">
+          <span>＋</span><span>Buat</span>
+        </button>
+        <button class="social-nav-btn" data-social-page="socialNotificationsPage" type="button">
+          <span>♧</span><span>Notifikasi</span>
+        </button>
+        <button class="social-nav-btn" data-social-page="socialProfilePage" type="button">
+          <span>◎</span><span>Profil</span>
+        </button>
+      </nav>
+    </section>
+
+  </main>
+
+  <div id="appModal" class="app-modal" hidden>
+    <div class="modal-backdrop" data-modal-close="true"></div>
+    <div class="modal-box" role="dialog" aria-modal="true" aria-labelledby="modalTitle">
+      <div class="modal-header">
+        <h2 id="modalTitle">STRANGER</h2>
+        <button id="modalCloseBtn" class="modal-close" type="button" aria-label="Tutup">×</button>
+      </div>
+      <div id="modalBody" class="modal-body"></div>
+      <div id="modalActions" class="modal-actions"></div>
+    </div>
+  </div>
+
+  <script type="module">
+    import { createClient } from "https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2/+esm";
+
+    const SUPABASE_URL = "https://diyjgvhzztisojzagafn.supabase.co";
+    const SUPABASE_ANON_KEY = "sb_publishable_T4tIuKg4nePVGKE6yP_v8w_rUMEwzLQ";
+
+    const supabase = createClient(SUPABASE_URL, SUPABASE_ANON_KEY);
+
+    const randomSupabase = createClient(SUPABASE_URL, SUPABASE_ANON_KEY, {
+      auth: {
+        storage: window.sessionStorage,
+        storageKey: "stranger-random-auth-v2",
+        persistSession: true,
+        autoRefreshToken: true,
+        detectSessionInUrl: false
+      }
+    });
+
+    if (sessionStorage.getItem("stranger_random_auth_version") !== "2") {
+      sessionStorage.removeItem("stranger_token");
+      sessionStorage.setItem("stranger_random_auth_version", "2");
+    }
+
+    const $ = id => document.getElementById(id);
+
+    let token = sessionStorage.getItem("stranger_token");
+    let conversationId = null;
+    let channel = null;
+    let searching = false;
+    let sending = false;
+    let reporting = false;
+    let knownMessages = new Set();
+    let messageCache = new Map();
+    let replyingTo = null;
+    let polling = false;
+    let pollTimer = null;
+    let modalResolver = null;
+    let currentUser = null;
+    let socialPosts = [];
+
+    let signupPasswordPending =
+      sessionStorage.getItem("stranger_signup_password_pending") === "true";
+
+    let pendingSignupEmail =
+      sessionStorage.getItem("stranger_signup_email") || "";
+
+    const legalPages = {
+      privacy: `
+        <div class="legal-document">
+          <p class="legal-meta">STRANGER · KEBIJAKAN PRIVASI · 21 NOVEMBER 2026</p>
+          <div class="legal-intro">
+            <h3>Privasi adalah hal yang penting.</h3>
+            <p>Halaman ini menjelaskan informasi yang diproses ketika kamu menggunakan STRANGER.</p>
+          </div>
+          <h3>1. Tentang STRANGER</h3>
+          <p>STRANGER menyediakan layanan Random Chat berupa percakapan teks secara acak tanpa harus menampilkan profil publik.</p>
+          <h3>2. Informasi yang Diproses</h3>
+          <ul class="legal-list">
+            <li>Identitas autentikasi anonim atau akun.</li>
+            <li>Token dan identitas sesi percakapan.</li>
+            <li>Pesan teks yang dikirim selama percakapan.</li>
+            <li>Informasi laporan dan informasi teknis layanan.</li>
+          </ul>
+          <h3>3. Penggunaan Informasi</h3>
+          <p>Informasi digunakan untuk menjalankan layanan, mencari pasangan percakapan, mengirim pesan, menjaga keamanan, dan menangani laporan.</p>
+          <h3>4. Pesan dan Percakapan</h3>
+          <p>Pesan diproses melalui server STRANGER dan dapat disimpan sesuai kebutuhan teknis. Anonim bukan berarti pesan tidak diproses atau tidak disimpan.</p>
+          <h3>5. Identitas Anonim</h3>
+          <p>Random Chat tidak menampilkan profil publik. Sistem tetap menggunakan identitas teknis agar layanan berjalan.</p>
+          <h3>6. Keamanan</h3>
+          <p>Jangan membagikan nama lengkap, alamat, nomor telepon, email pribadi, kata sandi, OTP, informasi keuangan, atau dokumen identitas kepada orang yang baru dikenal.</p>
+          <h3>7. Penyedia Infrastruktur</h3>
+          <p>STRANGER menggunakan penyedia pihak ketiga untuk autentikasi, server, basis data, dan hosting.</p>
+          <h3>8. Penyimpanan Data</h3>
+          <p>Informasi teknis dan pesan dapat tersimpan sesuai kebutuhan operasional. Percakapan yang berakhir tidak menjamin seluruh pesan langsung terhapus.</p>
+          <h3>9. Pengembangan Fitur</h3>
+          <p>Fitur sosial sedang dikembangkan secara bertahap.</p>
+          <h3>10. Perubahan Kebijakan</h3>
+          <p>Kebijakan ini dapat diperbarui seiring perkembangan STRANGER.</p>
+          <p class="legal-note">Dengan menggunakan STRANGER, kamu memahami bahwa layanan memproses informasi teknis dan pesan sebagaimana dijelaskan di sini.</p>
+        </div>
+      `,
+      rules: `
+        <div class="legal-document">
+          <p class="legal-meta">STRANGER · ATURAN PENGGUNAAN · 21 NOVEMBER 2026</p>
+          <div class="legal-intro">
+            <h3>Jadilah orang yang ingin kamu temui.</h3>
+            <p>Setiap pengguna bertanggung jawab menjaga pengalaman yang nyaman.</p>
+          </div>
+          <h3>1. Hormati Satu Sama Lain</h3>
+          <p>Jangan menghina, merendahkan, mengintimidasi, mengancam, atau melecehkan pengguna lain.</p>
+          <h3>2. Dilarang Menipu</h3>
+          <p>Jangan menggunakan STRANGER untuk penipuan, pemerasan, atau tindakan ilegal.</p>
+          <h3>3. Konten Berbahaya</h3>
+          <p>Dilarang mengirim spam, tautan berbahaya, malware, atau konten yang merugikan pengguna.</p>
+          <h3>4. Hormati Privasi</h3>
+          <p>Jangan menyebarkan informasi pribadi orang lain tanpa persetujuan.</p>
+          <h3>5. Jangan Menyalahgunakan Layanan</h3>
+          <p>Jangan mengganggu server, mengeksploitasi celah sistem, atau melakukan spam otomatis.</p>
+          <h3>6. Gunakan Fitur Laporan</h3>
+          <p>Gunakan fitur laporan secara jujur untuk melaporkan pelanggaran.</p>
+          <h3>7. Tanggung Jawab Pengguna</h3>
+          <p>Kamu bertanggung jawab atas pesan dan tindakan selama menggunakan STRANGER.</p>
+          <h3>8. Penegakan Aturan</h3>
+          <p>STRANGER dapat mengambil tindakan terhadap aktivitas yang melanggar aturan atau membahayakan pengguna.</p>
+          <p class="legal-note">Gunakan STRANGER dengan bijak. Jaga privasi dan hormati pengguna lain.</p>
+        </div>
+      `,
+      about: `
+        <div class="legal-document">
+          <p class="legal-meta">STRANGER · ABOUT US</p>
+          <div class="about-hero">
+            <div class="about-logo">S</div>
+            <h3>Meet someone.<br><span>Be yourself.</span></h3>
+            <p class="about-tagline">ANONYMOUS · RANDOM · REAL</p>
+          </div>
+          <h3>Apa itu STRANGER?</h3>
+          <p>STRANGER adalah platform untuk bertemu orang baru, berbagi cerita, dan membangun koneksi.</p>
+          <h3>Our Principle</h3>
+          <p>Anonim bukan berarti bebas menyakiti. Hormati privasi dan kenyamanan satu sama lain.</p>
+          <p class="legal-note">Terima kasih telah menjadi bagian dari perjalanan STRANGER.</p>
+        </div>
+      `
+    };
+
+    // MODAL SYSTEM
+
+    function closeModal(value = null) {
+      $("appModal").hidden = true;
+      $("appModal").style.display = "none";
+
+      if (modalResolver) {
+        const resolve = modalResolver;
+        modalResolver = null;
+        resolve(value);
+      }
+    }
+
+    function showModal(title, content, actions = []) {
+      if (modalResolver) closeModal(null);
+      $("modalTitle").textContent = title;
+      $("modalBody").innerHTML = content;
+      $("modalActions").innerHTML = "";
+
+      for (const action of actions) {
+        const button = document.createElement("button");
+        button.type = "button";
+        button.className = "modal-action-btn " + (action.className || "");
+        button.textContent = action.label;
+        button.addEventListener("click", () => closeModal(action.value));
+        $("modalActions").appendChild(button);
+      }
+
+      $("appModal").hidden = false;
+      $("appModal").style.display = "flex";
+
+      return new Promise(resolve => {
+        modalResolver = resolve;
+      });
+    }
+
+    function showLegalPage(page) {
+      const titles = {
+        privacy: "Kebijakan Privasi",
+        rules: "Aturan Penggunaan",
+        about: "Tentang STRANGER"
+      };
+      if (!legalPages[page]) return;
+      showModal(titles[page], legalPages[page], [
+        { label: "Tutup", value: true, className: "primary" }
+      ]);
+    }
+
+    document.querySelectorAll("[data-legal]").forEach(button => {
+      button.addEventListener("click", () => showLegalPage(button.dataset.legal));
+    });
+    $("modalCloseBtn").addEventListener("click", () => closeModal(null));
+    $("appModal").addEventListener("click", event => {
+      if (event.target.dataset.modalClose === "true") closeModal(null);
+    });
+
+    async function showConfirmation(title, message, confirmText) {
+      return await showModal(title, `<p>${message}</p>`, [
+        { label: "Batal", value: false },
+        { label: confirmText, value: true, className: "danger" }
+      ]);
+    }
+
+    // SCREEN ROUTING & ACCOUNT STATE
+
+    function showScreen(name) {
+      ["homeScreen", "chatScreen", "socialScreen"].forEach(id => {
+        $(id).classList.remove("active");
+      });
+      $(name).classList.add("active");
+    }
+
+    function showHomeScreen() {
+      if (currentUser && currentUser.is_anonymous !== true) {
+        renderSocialUser(currentUser);
+        showScreen("socialScreen");
+        showSocialPage("socialHomePage");
+      } else {
+        showScreen("homeScreen");
+      }
+    }
+
+    function renderAccountState(user) {
+      currentUser = user || null;
+      const isAnonymous = !user || user.is_anonymous === true;
+      $("accountActions").hidden = !isAnonymous;
+      $("orDivider").hidden = !isAnonymous;
+      $("accountStatusCard").hidden = isAnonymous;
+
+      if (!isAnonymous) {
+        $("accountStatusTitle").textContent = "Akun aktif";
+        $("accountStatusText").textContent = "Kamu sudah masuk ke akun STRANGER.";
+      }
+    }
+
+    function clearOldIdentity(previousId, nextId) {
+      if (previousId && nextId && previousId !== nextId) {
+        token = null;
+        sessionStorage.removeItem("stranger_token");
+      }
+    }
+
+    function clearSignupPasswordPending() {
+      signupPasswordPending = false;
+      pendingSignupEmail = "";
+      sessionStorage.removeItem("stranger_signup_password_pending");
+      sessionStorage.removeItem("stranger_signup_email");
+    }
+
+    function setSignupPasswordPending(email) {
+      signupPasswordPending = true;
+      pendingSignupEmail = email;
+      sessionStorage.setItem("stranger_signup_password_pending", "true");
+      sessionStorage.setItem("stranger_signup_email", email);
+    }
+
+    supabase.auth.onAuthStateChange((event, session) => {
+      const oldId = currentUser?.id || null;
+      const user = session?.user || null;
+      clearOldIdentity(oldId, user?.id || null);
+      renderAccountState(user);
+
+      if (signupPasswordPending) return;
+
+      if (event === "SIGNED_IN" || event === "SIGNED_OUT") {
+        if ($("chatScreen").classList.contains("active")) return;
+        showHomeScreen();
+      }
+    });
+
+    async function restoreAccountState() {
+      try {
+        const { data, error } = await supabase.auth.getSession();
+        if (error) throw error;
+
+        const user = data.session?.user || null;
+        renderAccountState(user);
+
+        if (signupPasswordPending && user && user.is_anonymous !== true) {
+          if (!pendingSignupEmail) pendingSignupEmail = user.email || "";
+          showPasswordForm(pendingSignupEmail || user.email || "");
+          return;
+        }
+
+        if (signupPasswordPending && (!user || user.is_anonymous === true)) {
+          clearSignupPasswordPending();
+        }
+
+        showHomeScreen();
+      } catch (error) {
+        console.error("Gagal memeriksa status akun:", error);
+        renderAccountState(null);
+        showHomeScreen();
+      }
+    }
+
+    // SOCIAL HOME
+
+    function showSocialPage(pageId) {
+      document.querySelectorAll(".social-page").forEach(page => {
+        page.classList.toggle("active", page.id === pageId);
+      });
+      document.querySelectorAll("[data-social-page]").forEach(button => {
+        button.classList.toggle("active", button.dataset.socialPage === pageId);
+      });
+    }
+
+    function renderSocialUser(user) {
+      const email = user?.email || "Pengguna STRANGER";
+      const initial = email.charAt(0).toUpperCase() || "S";
+      $("socialGreeting").textContent = `Halo, ${email}`;
+      $("profileEmail").textContent = email;
+      $("profileUserEmail").textContent = email;
+      $("profileAvatar").textContent = initial;
+      $("headerProfileBtn").textContent = initial;
+    }
+
+    document.querySelectorAll("[data-social-page]").forEach(button => {
+      button.addEventListener("click", () => {
+        if (!currentUser || currentUser.is_anonymous) return;
+        const page = button.dataset.socialPage;
+        showSocialPage(page);
+        if (page === "socialExplorePage") renderSocialFeed("exploreFeed");
+      });
+    });
+
+    $("headerProfileBtn").addEventListener("click", () => showSocialPage("socialProfilePage"));
+    $("headerNotificationBtn").addEventListener("click", () => showSocialPage("socialNotificationsPage"));
+    $("profileHomeBtn").addEventListener("click", () => showSocialPage("socialHomePage"));
+
+    socialPosts = [];
+
+    function renderSocialFeed(targetId = "socialFeed") {
+      const container = $(targetId);
+      container.innerHTML = "";
+
+      if (!socialPosts.length) {
+        container.innerHTML = `
+          <div class="social-empty">
+            <div class="social-empty-icon">✧</div>
+            Belum ada cerita. Jadilah yang pertama berbagi.
+          </div>
+        `;
+        return;
+      }
+
+      socialPosts.forEach(post => {
+        const article = document.createElement("article");
+        article.className = "social-post";
+
+        const head = document.createElement("div");
+        head.className = "social-post-head";
+
+        const avatar = document.createElement("div");
+        avatar.className = "social-post-avatar";
+        avatar.textContent = post.avatar || post.name.charAt(0).toUpperCase();
+
+        const user = document.createElement("div");
+        user.className = "social-post-user";
+        const username = document.createElement("strong");
+        username.textContent = post.name;
+        const time = document.createElement("span");
+        time.textContent = post.time;
+        user.append(username, time);
+        head.append(avatar, user);
+        article.appendChild(head);
+
+        if (post.image) {
+          const image = document.createElement("img");
+          image.className = "social-post-image";
+          image.src = post.image;
+          image.alt = "Foto postingan";
+          image.loading = "lazy";
+          image.onerror = () => image.remove();
+          article.appendChild(image);
+        }
+
+        const text = document.createElement("div");
+        text.className = "social-post-text";
+        text.textContent = post.text;
+        article.appendChild(text);
+
+        const actions = document.createElement("div");
+        actions.className = "social-post-actions";
+
+        const like = document.createElement("button");
+        like.textContent = `♡ Suka (${post.likes || 0})`;
+        like.addEventListener("click", () => {
+          post.liked = !post.liked;
+          post.likes = Math.max(0, (post.likes || 0) + (post.liked ? 1 : -1));
+          renderSocialFeed(targetId);
+        });
+        if (post.liked) like.classList.add("liked");
+
+        const comment = document.createElement("button");
+        comment.textContent = `Komentar (${post.comments?.length || 0})`;
+        comment.addEventListener("click", async () => {
+          await showModal(
+            "Komentar",
+            `<form id="commentForm" class="social-form">
+              <label for="commentInput">Tulis komentar</label>
+              <textarea id="commentInput" maxlength="500" placeholder="Tulis komentar..." required></textarea>
+              <button type="submit">Kirim Komentar</button>
+            </form>`,
+            [{ label: "Tutup", value: false }]
+          );
+        });
+
+        actions.append(like, comment);
+        article.appendChild(actions);
+
+        if (post.comments?.length) {
+          const comments = document.createElement("div");
+          comments.className = "social-comments";
+          post.comments.forEach(item => {
+            const line = document.createElement("div");
+            line.className = "social-comment";
+            const strong = document.createElement("strong");
+            strong.textContent = item.name;
+            const span = document.createElement("span");
+            span.textContent = item.text;
+            line.append(strong, span);
+            comments.appendChild(line);
+          });
+          article.appendChild(comments);
+        }
+
+        container.appendChild(article);
+      });
+    }
+
+    $("appModal").addEventListener("submit", event => {
+      if (event.target.id !== "commentForm") return;
+      event.preventDefault();
+      const content = $("commentInput").value.trim();
+      if (!content) return;
+      closeModal(true);
+      showModal("Komentar", "<p>Komentar demo belum tersimpan ke server.</p>", [
+        { label: "Oke", value: true, className: "primary" }
+      ]);
+    });
+
+    $("socialPostForm").addEventListener("submit", event => {
+      event.preventDefault();
+      if (!currentUser || currentUser.is_anonymous) return;
+
+      const content = $("socialPostContent").value.trim();
+      const image = $("socialPostImage").value.trim();
+      if (!content) return;
+
+      if (image) {
+        try {
+          const parsed = new URL(image);
+          if (!["http:", "https:"].includes(parsed.protocol)) throw new Error();
+        } catch {
+          $("postFormNotice").textContent = "URL foto tidak valid.";
+          return;
+        }
+      }
+
+      socialPosts.unshift({
+        id: "local-" + Date.now(),
+        name: currentUser.email || "Pengguna",
+        avatar: (currentUser.email || "S").charAt(0).toUpperCase(),
+        time: "Baru saja",
+        text: content,
+        image,
+        likes: 0,
+        comments: []
+      });
+
+      $("socialPostContent").value = "";
+      $("socialPostImage").value = "";
+      $("postFormNotice").textContent =
+        "Postingan ditambahkan di tampilan lokal perangkat ini. Belum dipublikasikan ke server.";
+      renderSocialFeed();
+      showSocialPage("socialHomePage");
+    });
+
+    $("profileEditBtn").addEventListener("click", () => {
+      showModal(
+        "Edit Profil",
+        "<p>Pengaturan nama samaran dan foto profil akan tersedia setelah sistem profil dan penyimpanan sosial STRANGER dibuat.</p>",
+        [{ label: "Mengerti", value: true, className: "primary" }]
+      );
+    });
+
+    $("logoutBtn").addEventListener("click", async () => {
+      const confirmed = await showConfirmation(
+        "Keluar dari STRANGER",
+        "Kamu yakin ingin keluar dari akun?",
+        "Keluar"
+      );
+      if (!confirmed) return;
+
+      $("logoutBtn").disabled = true;
+      try {
+        const { error } = await supabase.auth.signOut();
+        if (error) throw error;
+
+        token = null;
+        sessionStorage.removeItem("stranger_token");
+        clearSignupPasswordPending();
+        currentUser = null;
+        renderAccountState(null);
+        showHomeScreen();
+      } catch (error) {
+        showModal("Gagal Keluar", `<p>${escapeHTML(error.message)}</p>`, [
+          { label: "Tutup", value: true, className: "primary" }
+        ]);
+      } finally {
+        $("logoutBtn").disabled = false;
+      }
+    });
+
+    function escapeHTML(value) {
+      return String(value).replace(/[&<>"']/g, char => ({
+        "&": "&amp;", "<": "&lt;", ">": "&gt;", '"': "&quot;", "'": "&#39;"
+      })[char]);
+    }
+
+    renderSocialFeed();
+    renderSocialFeed("exploreFeed");
+
+    // LOGIN & REGISTER FORMS
+
+    function renderAccountForm(mode) {
+      const isRegister = mode === "register";
+      $("modalTitle").textContent = isRegister ? "Buat Akun STRANGER" : "Masuk ke STRANGER";
+
+      $("modalBody").innerHTML = `
+        <div class="account-form-intro">
+          <div class="account-form-icon">S</div>
+          <h3>${isRegister ? "Mulai perjalananmu." : "Selamat datang kembali."}</h3>
+          <p>${isRegister
+            ? "Masukkan email aktif untuk menerima kode verifikasi STRANGER."
+            : "Masuk untuk melanjutkan ke akun STRANGER kamu."}</p>
+        </div>
+        <form id="accountForm" class="account-form" data-mode="${mode}">
+          <label for="accountEmail">Email</label>
+          <input id="accountEmail" name="email" type="email"
+            placeholder="nama@email.com" autocomplete="email" required>
+          ${isRegister ? "" : `
+            <label for="accountPassword">Password</label>
+            <input id="accountPassword" name="password" type="password"
+              placeholder="Masukkan password" autocomplete="current-password" required>
+          `}
+          <div id="accountFormNotice" class="account-form-notice">
+            ${isRegister
+              ? "Kami akan mengirim kode OTP 8 digit ke email kamu."
+              : "Masukkan email dan password akun kamu."}
+          </div>
+          <button class="account-submit" type="submit">${isRegister ? "Kirim OTP" : "Masuk"}</button>
+        </form>
+        <div class="account-switch">
+          ${isRegister
+            ? `Sudah punya akun? <button type="button" data-account-mode="login">Masuk</button>`
+            : `Belum punya akun? <button type="button" data-account-mode="register">Daftar</button>`}
+        </div>
+      `;
+    }
+
+    function openAccountForm(mode) {
+      if (modalResolver) closeModal(null);
+      showModal(
+        mode === "register" ? "Daftar" : "Masuk",
+        "",
+        [{ label: "Tutup", value: true, className: "primary" }]
+      );
+      renderAccountForm(mode);
+    }
+
+    $("loginBtn").addEventListener("click", () => openAccountForm("login"));
+    $("registerBtn").addEventListener("click", () => openAccountForm("register"));
+
+    $("modalBody").addEventListener("click", event => {
+      const button = event.target.closest("[data-account-mode]");
+      if (button) renderAccountForm(button.dataset.accountMode);
+    });
+
+    function generateTemporaryPassword() {
+      const bytes = new Uint8Array(32);
+      crypto.getRandomValues(bytes);
+
+      return Array.from(bytes)
+        .map(byte => byte.toString(16).padStart(2, "0"))
+        .join("");
+    }
+
+    // FORM OTP
+
+    function showOtpForm(email) {
+      $("modalTitle").textContent = "Verifikasi Email";
+      $("modalActions").innerHTML = "";
+      $("modalBody").innerHTML = `
+        <div class="account-form-intro">
+          <div class="account-form-icon">✉</div>
+          <h3>Satu langkah lagi.</h3>
+          <p>Kode verifikasi sudah dikirim ke <strong>${escapeHTML(email)}</strong>. Salin kode 8 digit dari email, lalu masukkan di bawah ini.</p>
+        </div>
+        <form id="otpForm" class="account-form">
+          <label for="otpInput">Kode OTP</label>
+          <input id="otpInput" class="otp-input" type="text" inputmode="numeric"
+            autocomplete="one-time-code" maxlength="8" pattern="[0-9]{8}"
+            placeholder="00000000" required>
+          <div id="otpNotice" class="account-form-notice"></div>
+          <button class="account-submit" type="submit">Verifikasi Kode</button>
+        </form>
+        <button class="otp-secondary" id="resendOtpBtn" type="button">Kirim Ulang Kode</button>
+      `;
+
+      $("otpInput").focus();
+
+      $("otpInput").addEventListener("input", () => {
+        $("otpInput").value = $("otpInput").value.replace(/\D/g, "").slice(0, 8);
+      });
+
+      $("otpForm").addEventListener("submit", async event => {
+        event.preventDefault();
+
+        const otp = $("otpInput").value.trim();
+        const notice = $("otpNotice");
+        const submit = $("otpForm").querySelector("button[type=submit]");
+
+        if (!/^\d{8}$/.test(otp)) {
+          notice.textContent = "Masukkan kode OTP 8 digit.";
+          notice.classList.add("error");
+          return;
+        }
+
+        submit.disabled = true;
+        submit.textContent = "Memverifikasi...";
+        notice.classList.remove("error");
+        notice.textContent = "Sedang memeriksa kode...";
+
+        setSignupPasswordPending(email);
+
+        try {
+          const { data, error } = await supabase.auth.verifyOtp({
+            email,
+            token: otp,
+            type: "signup"
+          });
+
+          if (error) throw error;
+
+          const user = data.user || data.session?.user;
+          if (!user) {
+            throw new Error("Verifikasi berhasil, tetapi sesi akun belum tersedia. Silakan coba masuk kembali.");
+          }
+
+          if (!data.session) {
+            throw new Error("Verifikasi berhasil, tetapi sesi belum aktif. Silakan coba masuk kembali.");
+          }
+
+          const previousId = currentUser?.id || null;
+          clearOldIdentity(previousId, user.id);
+          renderAccountState(user);
+          showPasswordForm(email);
+
+        } catch (error) {
+          clearSignupPasswordPending();
+
+          const errorMessage = error?.message || String(error);
+
+          notice.textContent = "Gagal verifikasi: " + errorMessage;
+          notice.classList.add("error");
+          submit.disabled = false;
+          submit.textContent = "Verifikasi Kode";
+
+          console.error("OTP verification:", error);
+        }
+      });
+
+      $("resendOtpBtn").addEventListener("click", async () => {
+        const button = $("resendOtpBtn");
+        const notice = $("otpNotice");
+
+        button.disabled = true;
+        button.textContent = "Mengirim ulang...";
+
+        try {
+          const { error } = await supabase.auth.resend({
+            type: "signup",
+            email
+          });
+
+          if (error) throw error;
+
+          notice.classList.remove("error");
+          notice.textContent = "Kode OTP baru sudah diminta. Periksa email kamu.";
+        } catch (error) {
+          notice.textContent = error.message || "Gagal mengirim ulang kode.";
+          notice.classList.add("error");
+        } finally {
+          button.disabled = false;
+          button.textContent = "Kirim Ulang Kode";
+        }
+      });
+    }
+
+    // FORM PEMBUATAN PASSWORD SETELAH OTP BERHASIL
+
+    function showPasswordForm(email) {
+      $("modalTitle").textContent = "Buat Password";
+      $("modalActions").innerHTML = "";
+
+      $("modalBody").innerHTML = `
+        <div class="account-form-intro">
+          <div class="account-form-icon">S</div>
+          <h3>Email berhasil diverifikasi!</h3>
+          <p>Sekarang buat password untuk akun STRANGER kamu. Password ini akan digunakan setiap kali kamu masuk.</p>
+        </div>
+
+        <form id="newPasswordForm" class="account-form">
+          <label for="newAccountPassword">Password Baru</label>
+          <input id="newAccountPassword" name="password" type="password"
+            placeholder="Minimal 8 karakter" minlength="8"
+            autocomplete="new-password" required>
+
+          <label for="confirmNewAccountPassword">Konfirmasi Password</label>
+          <input id="confirmNewAccountPassword" name="confirmPassword" type="password"
+            placeholder="Ulangi password" minlength="8"
+            autocomplete="new-password" required>
+
+          <div id="passwordFormNotice" class="account-form-notice">
+            Gunakan password minimal 8 karakter dan pastikan kedua kolom sama.
+          </div>
+
+          <button class="account-submit" type="submit">Simpan Password</button>
+        </form>
+      `;
+
+      $("newAccountPassword").focus();
+
+      $("newPasswordForm").addEventListener("submit", async event => {
+        event.preventDefault();
+
+        const password = $("newAccountPassword").value;
+        const confirmPassword = $("confirmNewAccountPassword").value;
+        const notice = $("passwordFormNotice");
+        const submit = $("newPasswordForm").querySelector(".account-submit");
+
+        notice.classList.remove("error");
+
+        if (password.length < 8) {
+          notice.textContent = "Password minimal 8 karakter.";
+          notice.classList.add("error");
+          return;
+        }
+
+        if (password !== confirmPassword) {
+          notice.textContent = "Konfirmasi password tidak cocok.";
+          notice.classList.add("error");
+          return;
+        }
+
+        submit.disabled = true;
+        submit.textContent = "Menyimpan...";
+        notice.textContent = "Sedang menyimpan password akun kamu...";
+
+        try {
+          const { data, error } = await supabase.auth.updateUser({
+            password
+          });
+
+          if (error) throw error;
+
+          if (!data.user) {
+            throw new Error("Password berhasil diproses, tetapi data akun tidak ditemukan.");
+          }
+
+          const { error: signOutError } = await supabase.auth.signOut({
+            scope: "local"
+          });
+
+          if (signOutError) throw signOutError;
+
+          clearSignupPasswordPending();
+
+          token = null;
+          sessionStorage.removeItem("stranger_token");
+
+          currentUser = null;
+          renderAccountState(null);
+
+          closeModal(true);
+          showScreen("homeScreen");
+
+          await showModal(
+            "Pendaftaran Berhasil!",
+            `
+              <div class="account-form-intro">
+                <div class="account-form-icon">✓</div>
+                <h3>Akun STRANGER berhasil dibuat!</h3>
+                <p>Email kamu sudah terverifikasi dan password berhasil disimpan.</p>
+                <p>Silakan masuk menggunakan email dan password yang baru kamu buat.</p>
+              </div>
+            `,
+            [
+              {
+                label: "Mengerti",
+                value: true,
+                className: "primary"
+              }
+            ]
+          );
+
+        } catch (error) {
+          notice.textContent =
+            error.message || "Gagal menyimpan password. Silakan coba lagi.";
+
+          notice.classList.add("error");
+          submit.disabled = false;
+          submit.textContent = "Simpan Password";
+
+          console.error("Pendaftaran akun:", error);
+        }
+      });
+    }
+
+    // SUBMIT FORM DAFTAR DAN LOGIN
+
+    $("modalBody").addEventListener("submit", async event => {
+      if (event.target.id !== "accountForm") return;
+      event.preventDefault();
+
+      const form = event.target;
+      const isRegister = form.dataset.mode === "register";
+      const email = $("accountEmail").value.trim().toLowerCase();
+      const password = isRegister ? "" : $("accountPassword").value;
+      const notice = $("accountFormNotice");
+      const submit = form.querySelector(".account-submit");
+
+      if (!email) {
+        notice.textContent = "Masukkan alamat email terlebih dahulu.";
+        notice.classList.add("error");
+        return;
+      }
+
+      submit.disabled = true;
+      submit.textContent = isRegister ? "Mengirim OTP..." : "Memproses...";
+      notice.classList.remove("error");
+      notice.textContent = isRegister
+        ? "Sedang menyiapkan akun dan mengirim kode OTP..."
+        : "Sedang masuk...";
+
+      try {
+        if (isRegister) {
+          const temporaryPassword = generateTemporaryPassword();
+
+          const { data, error } = await supabase.auth.signUp({
+            email,
+            password: temporaryPassword
+          });
+
+          if (error) throw error;
+
+          if (data.session) {
+            await supabase.auth.signOut();
+
+            throw new Error(
+              "Konfirmasi email belum diwajibkan oleh Supabase. Aktifkan Confirm email di Authentication > Providers > Email, lalu coba daftar kembali."
+            );
+          }
+
+          if (!data.user) {
+            throw new Error("Akun belum berhasil dibuat. Silakan coba lagi.");
+          }
+
+          showOtpForm(email);
+          return;
+        }
+
+        const { data: oldData } = await supabase.auth.getSession();
+        const previousUserId = oldData.session?.user?.id || null;
+
+        const { data, error } = await supabase.auth.signInWithPassword({
+          email,
+          password
+        });
+
+        if (error) throw error;
+
+        const user = data.user || data.session?.user;
+        clearOldIdentity(previousUserId, user?.id || null);
+        renderAccountState(user);
+        closeModal(true);
+        showHomeScreen();
+
+      } catch (error) {
+        notice.textContent = error.message || "Terjadi kesalahan. Coba lagi.";
+        notice.classList.add("error");
+        submit.disabled = false;
+        submit.textContent = isRegister ? "Kirim OTP" : "Masuk";
+        console.error("Account form:", error);
+      }
+    });
+
+    // HELPERS
+
+    function delay(ms) {
+      return new Promise(resolve => setTimeout(resolve, ms));
+    }
+
+    function setSearchState(active, message = "") {
+      searching = active;
+      $("startBtn").disabled = active;
+      $("searchPanel").hidden = !active;
+      if (active) {
+        $("searchStatusText").textContent = message || "Mohon tunggu sebentar.";
+        $("homeStatus").textContent = "";
+      } else {
+        $("homeStatus").textContent = message;
+      }
+    }
+
+    // AUTHENTICATION FOR RANDOM CHAT
+
+    async function getAuthSession() {
+      let data;
+
+      try {
+        const result = await randomSupabase.auth.getSession();
+
+        if (result.error) {
+          throw result.error;
+        }
+
+        data = result.data;
+      } catch (error) {
+        throw new Error(
+          "Gagal memeriksa sesi anonim: " +
+          (error.message || String(error))
+        );
+      }
+
+      if (data.session && data.session.user?.is_anonymous === true) {
+        return data.session;
+      }
+
+      if (data.session) {
+        const { error } = await randomSupabase.auth.signOut({
+          scope: "local"
+        });
+
+        if (error) {
+          throw new Error(
+            "Gagal membersihkan sesi Random Chat: " + error.message
+          );
+        }
+      }
+
+      try {
+        const { data: authData, error: authError } =
+          await randomSupabase.auth.signInAnonymously();
+
+        if (authError) throw authError;
+
+        if (!authData.session || authData.user?.is_anonymous !== true) {
+          throw new Error("Identitas anonim tidak berhasil dibuat.");
+        }
+
+        return authData.session;
+
+      } catch (error) {
+        throw new Error(
+          "Gagal membuat identitas anonim: " +
+          (error.message || String(error))
+        );
+      }
+    }
+
+    // SERVER FUNCTIONS
+
+    async function callFunction(name, body) {
+      const authSession = await getAuthSession();
+
+      const functionSlug =
+        name === "create-session" ? "smooth-task" : name;
+
+      let response;
+
+      try {
+        response = await fetch(
+          `${SUPABASE_URL}/functions/v1/${functionSlug}`,
+          {
+            method: "POST",
+            headers: {
+              "Content-Type": "application/json",
+              "apikey": SUPABASE_ANON_KEY,
+              "Authorization": `Bearer ${authSession.access_token}`
+            },
+            body: JSON.stringify(body)
+          }
+        );
+
+      } catch (error) {
+        console.error(`Koneksi Edge Function ${name} gagal:`, error);
+
+        throw new Error(
+          `Tidak dapat menghubungi server "${name}". ` +
+          `Detail: ${error.message || String(error)}`
+        );
+      }
+
+      let result;
+
+      try {
+        result = await response.json();
+      } catch {
+        throw new Error(
+          `Server "${name}" memberikan respons tidak valid. HTTP ${response.status}.`
+        );
+      }
+
+      if (!response.ok || result.success === false) {
+        throw new Error(
+          result.error ||
+          result.message ||
+          `Gagal menjalankan ${name}. HTTP ${response.status}.`
+        );
+      }
+
+      return result;
+    }
+
+    // CREATE ANONYMOUS STRANGER SESSION
+
+    async function createStrangerSession() {
+      if (token) return;
+
+      const result = await callFunction("create-session", {});
+
+      if (!result.token) {
+        throw new Error(
+          result.message || "Token sesi anonim tidak berhasil dibuat."
+        );
+      }
+
+      token = result.token;
+      sessionStorage.setItem("stranger_token", token);
+    }
+
+    // MATCH RESPONSE NORMALIZER
+
+    function normalizeMatchResult(result) {
+      const raw = result?.data ?? result;
+      const match = Array.isArray(raw) ? raw[0] : raw;
+
+      return {
+        matched: result?.matched ?? match?.matched ?? match?.is_matched ?? false,
+        conversationId: result?.conversationId ?? result?.conversation_id ??
+          match?.conversationId ?? match?.conversation_id ?? match?.new_conversation_id ?? null
+      };
+    }
+
+    // SEARCH PARTNER
+
+    async function startSearch() {
+      if (searching) return;
+
+      setSearchState(true, "Menyiapkan identitas anonim...");
+
+      try {
+        await createStrangerSession();
+
+        setSearchState(true, "Mencari pengguna yang tersedia...");
+
+        const result = await callFunction("find-partner", { token });
+        const match = normalizeMatchResult(result);
+
+        if (match.matched && match.conversationId) {
+          setSearchState(false);
+          await openChat(match.conversationId);
+          return;
+        }
+
+        await waitForMatch();
+
+      } catch (error) {
+        console.error("Random Chat gagal dimulai:", error);
+        setSearchState(false, "Gagal: " + error.message);
+      }
+    }
+
+    async function waitForMatch() {
+      while (searching) {
+        await delay(2000);
+        if (!searching) break;
+
+        try {
+          const result = await callFunction("check-match", { token });
+          const match = normalizeMatchResult(result);
+
+          if (match.matched && match.conversationId) {
+            setSearchState(false);
+            await openChat(match.conversationId);
+            return;
+          }
+        } catch (error) {
+          console.error("Pemeriksaan pasangan:", error);
+          $("searchStatusText").textContent = "Koneksi terganggu. Mencoba kembali...";
+        }
+      }
+    }
+
+    // REPLY SYSTEM
+
+    function setReplyTarget(message) {
+      if (!message) return;
+      replyingTo = message;
+      $("replyPreview").hidden = false;
+      $("replySender").textContent = message.isMine ? "Membalas pesan kamu" : "Membalas pesan";
+      $("replyText").textContent = message.content;
+      $("messageInput").focus();
+    }
+
+    function cancelReply() {
+      replyingTo = null;
+      $("replyPreview").hidden = true;
+      $("replyText").textContent = "";
+    }
+
+    $("cancelReplyBtn").addEventListener("click", cancelReply);
+
+    // MESSAGE DISPLAY
+
+    function formatMessageTime(timestamp) {
+      const date = timestamp ? new Date(timestamp) : new Date();
+      if (Number.isNaN(date.getTime())) return "";
+      return date.toLocaleTimeString("id-ID", {
+        hour: "2-digit", minute: "2-digit", hour12: false
+      });
+    }
+
+    // Normalisasi struktur pesan dari get-messages dan send-message.
+    // Backend menggunakan "mine" dan "reply_to", sedangkan UI memakai
+    // "isMine" dan "reply".
+    function normalizeMessage(message) {
+      if (!message) return null;
+
+      const replySource = message.reply ?? message.reply_to ?? null;
+
+      let reply = null;
+
+      if (replySource) {
+        reply = {
+          ...replySource,
+          isMine: replySource.isMine ?? replySource.mine ?? false
+        };
+      }
+
+      return {
+        ...message,
+        isMine: message.isMine ?? message.mine ?? false,
+        reply
+      };
+    }
+
+    function addMessage(message) {
+      const normalized = normalizeMessage(message);
+
+      if (!normalized || !normalized.id || knownMessages.has(normalized.id)) {
+        return;
+      }
+
+      knownMessages.add(normalized.id);
+      messageCache.set(normalized.id, normalized);
+
+      const item = document.createElement("div");
+      item.className = "message";
+      item.dataset.messageId = normalized.id;
+
+      if (normalized.isMine) item.classList.add("mine");
+
+      if (normalized.reply) {
+        const quote = document.createElement("div");
+        quote.className = "message-reply";
+        quote.textContent =
+          (normalized.reply.isMine ? "Kamu: " : "Mereka: ") +
+          normalized.reply.content;
+
+        quote.addEventListener("click", () => {
+          const original = document.querySelector(
+            `[data-message-id="${normalized.reply.id}"]`
+          );
+
+          if (original) {
+            original.scrollIntoView({ behavior: "smooth", block: "center" });
+            original.classList.add("message-highlight");
+            setTimeout(() => original.classList.remove("message-highlight"), 1200);
+          }
+        });
+
+        item.appendChild(quote);
+      }
+
+      const content = document.createElement("div");
+      content.className = "message-content";
+      content.textContent = normalized.content;
+      item.appendChild(content);
+
+      const time = document.createElement("div");
+      time.className = "message-time";
+      time.textContent = formatMessageTime(normalized.created_at);
+      item.appendChild(time);
+
+      $("messages").appendChild(item);
+      $("messages").scrollTop = $("messages").scrollHeight;
+    }
+
+    // SWIPE TO REPLY
+
+    const messageContainer = $("messages");
+    let startX = 0;
+    let startY = 0;
+    let touchedMessage = null;
+
+    messageContainer.addEventListener("touchstart", event => {
+      const target = event.target.closest(".message");
+      if (!target) return;
+      touchedMessage = target;
+      startX = event.touches[0].clientX;
+      startY = event.touches[0].clientY;
+    }, { passive: true });
+
+    messageContainer.addEventListener("touchend", event => {
+      if (!touchedMessage) return;
+
+      const deltaX = event.changedTouches[0].clientX - startX;
+      const deltaY = event.changedTouches[0].clientY - startY;
+
+      if (deltaX > 60 && Math.abs(deltaX) > Math.abs(deltaY) * 1.3) {
+        const selectedMessage = messageCache.get(touchedMessage.dataset.messageId);
+        if (selectedMessage) setReplyTarget(selectedMessage);
+      }
+
+      touchedMessage = null;
+    }, { passive: true });
+
+    // LOAD MESSAGES
+
+    async function loadMessages() {
+      if (!conversationId || !token) return;
+
+      const currentConversation = conversationId;
+
+      const result = await callFunction("get-messages", {
+        token,
+        conversationId: currentConversation
+      });
+
+      if (conversationId !== currentConversation) return;
+      if (!result.success) {
+        throw new Error(result.message || result.error || "Gagal mengambil pesan.");
+      }
+
+      if (result.ended === true) {
+        stopMessagePolling();
+
+        if (channel) {
+          const oldChannel = channel;
+          channel = null;
+          await supabase.removeChannel(oldChannel);
+        }
+
+        if (conversationId !== currentConversation) return;
+
+        conversationId = null;
+        cancelReply();
+        knownMessages.clear();
+        messageCache.clear();
+        $("messages").innerHTML = "";
+        $("messageInput").value = "";
+        $("chatNotice").textContent = "";
+        showHomeScreen();
+
+        showModal(
+          "Percakapan Berakhir",
+          "<p>Teman bicaramu telah mengakhiri percakapan.</p>",
+          [{ label: "Oke", value: true, className: "primary" }]
+        );
+
+        return;
+      }
+
+      for (const message of result.messages || []) {
+        addMessage(message);
+      }
+    }
+
+    // MESSAGE POLLING
+
+    function startMessagePolling() {
+      stopMessagePolling();
+
+      pollTimer = setInterval(async () => {
+        if (polling || !conversationId) return;
+
+        polling = true;
+
+        try {
+          await loadMessages();
+        } catch (error) {
+          console.error("Sinkronisasi pesan gagal:", error);
+        } finally {
+          polling = false;
+        }
+      }, 2000);
+    }
+
+    function stopMessagePolling() {
+      if (pollTimer) {
+        clearInterval(pollTimer);
+        pollTimer = null;
+      }
+
+      polling = false;
+    }
+
+    // REALTIME
+
+    function subscribeRealtime() {
+      if (channel) {
+        supabase.removeChannel(channel);
+        channel = null;
+      }
+
+      const subscribedConversation = conversationId;
+
+      channel = supabase
+        .channel("stranger-" + subscribedConversation)
+        .on("postgres_changes", {
+          event: "INSERT",
+          schema: "public",
+          table: "messages",
+          filter: `conversation_id=eq.${subscribedConversation}`
+        }, async () => {
+          if (conversationId !== subscribedConversation) return;
+
+          try {
+            await loadMessages();
+          } catch (error) {
+            console.error("Gagal memperbarui pesan:", error);
+          }
+        })
+        .subscribe(status => {
+          if (conversationId !== subscribedConversation) return;
+
+          if (status === "SUBSCRIBED") {
+            $("chatStatus").textContent = "Terhubung";
+          } else if (["CHANNEL_ERROR", "TIMED_OUT", "CLOSED"].includes(status)) {
+            $("chatStatus").textContent = "Koneksi realtime terganggu";
+          }
+        });
+    }
+
+    // OPEN CHAT
+
+    async function openChat(id) {
+      setSearchState(false);
+
+      conversationId = id;
+      knownMessages.clear();
+      messageCache.clear();
+      cancelReply();
+
+      $("messages").innerHTML = "";
+      $("chatNotice").textContent = "";
+      $("messageInput").value = "";
+
+      showScreen("chatScreen");
+      $("chatStatus").textContent = "Menghubungkan...";
+
+      subscribeRealtime();
+
+      try {
+        await loadMessages();
+      } catch (error) {
+        $("chatNotice").textContent = "Gagal memuat pesan: " + error.message;
+      }
+
+      if (conversationId !== id) return;
+
+      startMessagePolling();
+      $("messageInput").focus();
+    }
+
+    // SEND MESSAGE
+
+    async function sendMessage() {
+      const content = $("messageInput").value.trim();
+
+      if (!content || sending || !conversationId) return;
+
+      sending = true;
+      $("sendBtn").disabled = true;
+
+      const replyTarget = replyingTo;
+      const currentConversation = conversationId;
+
+      try {
+        const result = await callFunction("send-message", {
+          session_token: token,
+          content,
+          reply_to_id: replyTarget ? replyTarget.id : null
+        });
+
+        if (conversationId !== currentConversation) return;
+
+        // Edge Function mengembalikan objek pesan di result.data.
+        // result.message hanya berisi teks "Pesan terkirim".
+        const sentMessage = result.data;
+
+        if (!sentMessage || !sentMessage.id) {
+          throw new Error("Server tidak mengembalikan data pesan.");
+        }
+
+        addMessage({
+          ...sentMessage,
+          isMine: true,
+          reply: replyTarget ? {
+            id: replyTarget.id,
+            content: replyTarget.content,
+            isMine: replyTarget.isMine ?? replyTarget.mine ?? false
+          } : null
+        });
+
+        $("messageInput").value = "";
+        cancelReply();
+        $("chatNotice").textContent = "";
+
+      } catch (error) {
+        $("chatNotice").textContent = "Pesan gagal dikirim: " + error.message;
+      } finally {
+        sending = false;
+        $("sendBtn").disabled = false;
+      }
+    }
+
+    // REPORT USER
+
+    async function reportUser() {
+      if (!conversationId || reporting) return;
+
+      const currentConversation = conversationId;
+      const reasons = [
+        "Pelecehan",
+        "Penipuan",
+        "Spam",
+        "Ancaman",
+        "Pesan tidak pantas",
+        "Lainnya"
+      ];
+
+      const buttons = reasons.map((reason, index) => ({
+        label: `${index + 1}. ${reason}`,
+        value: index,
+        className: "report-choice"
+      }));
+
+      buttons.push({ label: "Batal", value: null });
+
+      const selected = await showModal(
+        "Laporkan Pengguna",
+        "<p>Pilih alasan laporan yang paling sesuai.</p>",
+        buttons
+      );
+
+      if (selected === null) return;
+
+      const reason = reasons[selected];
+
+      const confirmed = await showConfirmation(
+        "Konfirmasi Laporan",
+        `Kirim laporan dengan alasan "${reason}"?`,
+        "Kirim Laporan"
+      );
+
+      if (!confirmed) return;
+
+      reporting = true;
+      $("reportBtn").disabled = true;
+      $("chatNotice").textContent = "Mengirim laporan...";
+
+      try {
+        await callFunction("report-user", {
+          token,
+          conversationId: currentConversation,
+          reason
+        });
+
+        if (conversationId !== currentConversation) return;
+
+        $("chatNotice").textContent =
+          "Laporan berhasil dikirim. Terima kasih telah membantu menjaga STRANGER.";
+
+        const menu = document.querySelector(".chat-actions");
+        if (menu) menu.open = false;
+
+        await showModal(
+          "Laporan Terkirim",
+          "<p>Terima kasih telah membantu menjaga keamanan STRANGER.</p>",
+          [{ label: "Tutup", value: true, className: "primary" }]
+        );
+
+      } catch (error) {
+        if (conversationId !== currentConversation) return;
+
+        $("chatNotice").textContent =
+          "Laporan gagal dikirim: " + error.message;
+
+        await showModal(
+          "Laporan Gagal",
+          `<p>${escapeHTML(error.message)}</p>`,
+          [{ label: "Tutup", value: true, className: "primary" }]
+        );
+
+      } finally {
+        reporting = false;
+        $("reportBtn").disabled = false;
+      }
+    }
+
+    // NEXT PARTNER
+
+    async function nextPartner() {
+      if (!conversationId) return;
+
+      const confirmed = await showConfirmation(
+        "Cari Orang Baru",
+        "Akhiri percakapan ini dan cari orang baru?",
+        "Ya, Cari Orang Baru"
+      );
+
+      if (!confirmed) return;
+
+      try {
+        stopMessagePolling();
+
+        if (channel) {
+          await supabase.removeChannel(channel);
+          channel = null;
+        }
+
+        conversationId = null;
+        knownMessages.clear();
+        messageCache.clear();
+        cancelReply();
+
+        $("messages").innerHTML = "";
+        $("chatNotice").textContent = "";
+        $("messageInput").value = "";
+
+        showHomeScreen();
+        setSearchState(true, "Menghubungkan ke antrean pencarian...");
+
+        // Backend next-partner menerima properti "token".
+        const result = await callFunction("next-partner", { token });
+        const match = normalizeMatchResult(result);
+
+        if (match.matched && match.conversationId) {
+          setSearchState(false);
+          await openChat(match.conversationId);
+          return;
+        }
+
+        await waitForMatch();
+
+      } catch (error) {
+        setSearchState(false, "Gagal mencari pasangan: " + error.message);
+      }
+    }
+
+    // END CHAT
+
+    async function endChat() {
+      if (!conversationId) return;
+
+      const confirmed = await showConfirmation(
+        "Akhiri Percakapan",
+        "Kamu yakin ingin mengakhiri percakapan ini?",
+        "Akhiri"
+      );
+
+      if (!confirmed) return;
+
+      const currentConversation = conversationId;
+
+      try {
+        // Backend end-chat menerima "token" dan "conversationId".
+        await callFunction("end-chat", {
+          token,
+          conversationId: currentConversation
+        });
+
+        if (conversationId !== currentConversation) return;
+
+        stopMessagePolling();
+
+        if (channel) {
+          const oldChannel = channel;
+          channel = null;
+          await supabase.removeChannel(oldChannel);
+        }
+
+        conversationId = null;
+        knownMessages.clear();
+        messageCache.clear();
+        cancelReply();
+
+        $("messages").innerHTML = "";
+        $("messageInput").value = "";
+        $("chatNotice").textContent = "";
+
+        setSearchState(false, "Percakapan telah diakhiri.");
+        showHomeScreen();
+
+      } catch (error) {
+        $("chatNotice").textContent =
+          "Gagal mengakhiri percakapan: " + error.message;
+      }
+    }
+
+    // BUTTON EVENTS
+
+    $("startBtn").addEventListener("click", startSearch);
+    $("sendBtn").addEventListener("click", sendMessage);
+    $("reportBtn").addEventListener("click", reportUser);
+    $("nextBtn").addEventListener("click", nextPartner);
+    $("endBtn").addEventListener("click", endChat);
+
+    $("messageInput").addEventListener("keydown", event => {
+      if (event.key === "Enter") {
+        event.preventDefault();
+        sendMessage();
+      }
+    });
+
+    restoreAccountState();
+
+  </script>
+</body>
+</html>
+
