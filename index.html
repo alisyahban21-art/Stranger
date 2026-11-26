@@ -1,0 +1,3693 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta name="theme-color" content="#090a0f">
+  <meta name="description" content="STRANGER - Anonymous Random Chat.">
+  <title>STRANGER</title>
+  <link rel="stylesheet" href="style.css">
+<link rel="manifest" href="./manifest.json" />
+</head>
+
+<body>
+<main class="app">
+
+  <!-- HOME SCREEN -->
+  <section id="homeScreen" class="screen active">
+    <div class="home">
+      <div class="home-ambient" aria-hidden="true">
+        <span class="ambient-orb orb-one"></span>
+        <span class="ambient-orb orb-two"></span>
+        <span class="ambient-orb orb-three"></span>
+      </div>
+
+      <div class="brand-mark">
+        <div class="brand-icon" aria-hidden="true">
+          <svg class="logo-mark-svg" viewBox="0 0 32 32" fill="none">
+            <path
+              d="M20.5 9.6C19.2 8.2 17.5 7.5 15.6 7.5C12.2 7.5 10 9.4 10 11.9C10 14.3 12.1 15.3 15.8 16.1C19.8 17 22.2 18.4 22.2 21.6C22.2 24.7 19.5 26.8 15.6 26.8C12.8 26.8 10.4 25.7 8.9 23.8"
+              stroke="#FFFFFF"
+              stroke-width="2.6"
+              stroke-linecap="round"
+            />
+            <path
+              d="M21.8 7.5H24.2"
+              stroke="rgba(255,255,255,0.68)"
+              stroke-width="2"
+              stroke-linecap="round"
+            />
+          </svg>
+        </div>
+        <span>STRANGER</span>
+      </div>
+
+      <div class="home-content">
+
+        <div class="home-eyebrow">
+          <span class="online-dot"></span>
+          ANONYMOUS CONNECTION
+        </div>
+
+        <h1>
+          Meet someone.<br>
+          <span>Be yourself.</span>
+        </h1>
+
+        <p>
+          Mulai percakapan baru dengan seseorang
+          secara acak dan anonim.
+        </p>
+
+        <div class="mode-options">
+          <button id="startBtn" class="mode-btn chat-mode" type="button">
+            <span class="mode-info">
+              <span class="mode-icon" aria-hidden="true">◈</span>
+              <span class="mode-text">
+                <strong>STRANGER CHAT</strong>
+                <small>Ngobrol acak secara anonim</small>
+              </span>
+            </span>
+            <span class="mode-arrow" aria-hidden="true">→</span>
+          </button>
+        </div>
+
+        <div
+          id="searchRadar"
+          class="search-radar"
+          aria-hidden="true"
+          hidden
+        >
+          <span class="radar-ring"></span>
+          <span class="radar-ring radar-ring-delay"></span>
+          <span class="radar-core"></span>
+        </div>
+
+        <button
+          id="cancelSearchBtn"
+          class="cancel-search-btn"
+          type="button"
+          hidden
+        >
+          Batalkan
+        </button>
+
+        <div id="homeStatus" class="status"></div>
+      </div>
+
+      <div class="home-footer">
+        <div class="footer-links">
+          <button class="footer-link" data-legal="privacy">
+            Kebijakan Privasi
+          </button>
+          <span>·</span>
+          <button class="footer-link" data-legal="rules">
+            Aturan Penggunaan
+          </button>
+          <span>·</span>
+          <button class="footer-link" data-legal="about">
+            Tentang STRANGER
+          </button>
+        </div>
+
+        <div class="footer-copy">
+          © 2026 STRANGER. All rights reserved.
+        </div>
+
+        <div class="footer-slogan">
+          ANONYMOUS · RANDOM · REAL
+        </div>
+      </div>
+
+    </div>
+  </section>
+
+  <!-- CHAT SCREEN -->
+  <section id="chatScreen" class="screen">
+
+    <header class="chat-header">
+      <div class="chat-brand">
+        <div class="brand-icon small" aria-hidden="true">
+          <svg class="logo-mark-svg" viewBox="0 0 32 32" fill="none">
+            <path
+              d="M20.5 9.6C19.2 8.2 17.5 7.5 15.6 7.5C12.2 7.5 10 9.4 10 11.9C10 14.3 12.1 15.3 15.8 16.1C19.8 17 22.2 18.4 22.2 21.6C22.2 24.7 19.5 26.8 15.6 26.8C12.8 26.8 10.4 25.7 8.9 23.8"
+              stroke="#FFFFFF"
+              stroke-width="2.6"
+              stroke-linecap="round"
+            />
+            <path
+              d="M21.8 7.5H24.2"
+              stroke="rgba(255,255,255,0.68)"
+              stroke-width="2"
+              stroke-linecap="round"
+            />
+          </svg>
+        </div>
+        <div class="chat-brand-text">
+          <h2>STRANGER</h2>
+          <span class="chat-subtitle">Anonymous chat</span>
+        </div>
+      </div>
+
+      <div class="connection-indicator">
+        <span class="online-dot"></span>
+        <span id="chatStatus">Terhubung</span>
+      </div>
+    </header>
+
+    <div class="chat-intro">
+      <span class="chat-intro-line"></span>
+      <span>YOU ARE NOW CONNECTED</span>
+      <span class="chat-intro-line"></span>
+    </div>
+
+    <div id="messages" class="messages"></div>
+
+    <!-- TYPING INDICATOR -->
+    <div
+      id="typingIndicator"
+      class="typing-indicator"
+      aria-live="polite"
+      hidden
+    >
+      <div class="typing-dots" aria-hidden="true">
+        <span></span>
+        <span></span>
+        <span></span>
+      </div>
+      <span>Lawan bicara sedang mengetik...</span>
+    </div>
+
+    <div id="chatNotice" class="chat-notice status"></div>
+
+    <div class="bottom-panel">
+
+      <div id="replyPreview" class="reply-preview" hidden>
+        <div class="reply-preview-content">
+          <span id="replySender" class="reply-sender">
+            Membalas pesan
+          </span>
+          <span id="replyText" class="reply-text"></span>
+        </div>
+
+        <button
+          id="cancelReplyBtn"
+          class="cancel-reply-btn"
+          type="button"
+          aria-label="Batalkan balasan"
+        >×</button>
+      </div>
+
+      <div id="photoPreview" class="photo-preview" hidden>
+        <div class="photo-preview-info">
+          <svg viewBox="0 0 24 24" aria-hidden="true">
+            <rect x="3" y="5" width="18" height="15" rx="3"/>
+            <circle cx="12" cy="12.5" r="3.5"/>
+            <path d="M8 5l1.5-2h5L16 5"/>
+          </svg>
+
+          <span id="photoFileName">Foto dipilih</span>
+        </div>
+
+        <button
+          type="button"
+          id="cancelPhotoBtn"
+          aria-label="Batalkan foto"
+        >✕</button>
+      </div>
+
+      <input
+        type="file"
+        id="photoInput"
+        accept="image/jpeg,image/png,image/webp"
+        hidden
+      >
+
+      <div class="chat-input">
+
+        <button
+          type="button"
+          id="photoSelectBtn"
+          class="photo-select-btn"
+          aria-label="Kirim foto"
+          title="Kirim foto"
+        >
+          <svg viewBox="0 0 24 24" aria-hidden="true">
+            <rect x="3" y="5" width="18" height="15" rx="3"/>
+            <circle cx="12" cy="12.5" r="3.5"/>
+            <path d="M8 5l1.5-2h5L16 5"/>
+          </svg>
+        </button>
+
+        <button
+          id="emojiToggleBtn"
+          class="emoji-toggle-btn"
+          type="button"
+          aria-label="Buka panel emoji"
+          aria-expanded="false"
+        >
+          <svg viewBox="0 0 24 24" aria-hidden="true">
+            <circle cx="12" cy="12" r="9"/>
+            <path d="M8 14s1.5 2 4 2 4-2 4-2"/>
+            <path d="M9 9h.01M15 9h.01"/>
+          </svg>
+        </button>
+
+        <input
+          id="messageInput"
+          type="text"
+          maxlength="2000"
+          placeholder="Tulis pesan..."
+          autocomplete="off"
+        >
+
+        <button
+          id="sendBtn"
+          class="send-btn"
+          type="button"
+          aria-label="Kirim pesan"
+        >↑</button>
+
+      </div>
+
+      <!-- EMOJI PANEL -->
+      <div
+        id="emojiPanel"
+        class="emoji-panel"
+        aria-label="Panel emoji"
+        hidden
+      >
+        <div class="emoji-panel-header">
+          <span>EMOJI</span>
+          <div class="emoji-panel-actions">
+            <button
+              id="emojiDeleteBtn"
+              class="emoji-delete-btn"
+              type="button"
+              aria-label="Hapus emoji atau karakter"
+              title="Hapus"
+            >⌫</button>
+            <button
+              id="emojiCloseBtn"
+              class="emoji-close-btn"
+              type="button"
+              aria-label="Tutup panel emoji"
+              title="Tutup"
+            >×</button>
+          </div>
+        </div>
+        <div id="emojiGrid" class="emoji-grid"></div>
+      </div>
+
+      <!-- KEYBOARD STRANGER -->
+      <div
+        id="strangerKeyboard"
+        class="stranger-keyboard"
+        hidden
+        aria-label="Keyboard STRANGER"
+      >
+        <div class="keyboard-header">
+          <span>STRANGER KEYBOARD</span>
+          <button
+            id="keyboardHideBtn"
+            type="button"
+            aria-label="Tutup keyboard"
+          >⌄</button>
+        </div>
+
+        <div id="keyboardKeys" class="keyboard-keys"></div>
+      </div>
+
+      <div class="bottom-toolbar">
+        <span class="privacy-label">
+          <span class="privacy-icon">◈</span>
+          Percakapan anonim
+        </span>
+
+        <details id="chatActionsMenu" class="chat-actions">
+          <summary>
+            <span class="menu-icon">•••</span>
+            Opsi percakapan
+          </summary>
+
+          <div class="action-menu">
+
+            <button id="reportBtn" class="end-btn" type="button">
+              <span>⚑</span>
+              Laporkan pengguna
+            </button>
+
+            <button id="nextBtn" class="next-btn" type="button">
+              <span>↻</span>
+              Cari orang baru
+            </button>
+
+            <button id="endBtn" class="end-btn" type="button">
+              <span>×</span>
+              Akhiri percakapan
+            </button>
+
+          </div>
+        </details>
+      </div>
+
+    </div>
+  </section>
+
+</main>
+
+<!-- CUSTOM MODAL -->
+<div id="appModal" class="app-modal" hidden>
+
+  <div
+    class="modal-backdrop"
+    data-modal-close="true"
+  ></div>
+
+  <div
+    class="modal-box"
+    role="dialog"
+    aria-modal="true"
+    aria-labelledby="modalTitle"
+  >
+
+    <div class="modal-header">
+      <h2 id="modalTitle">STRANGER</h2>
+
+      <button
+        id="modalCloseBtn"
+        class="modal-close"
+        type="button"
+        aria-label="Tutup"
+      >×</button>
+    </div>
+
+    <div id="modalBody" class="modal-body"></div>
+    <div id="modalActions" class="modal-actions"></div>
+
+  </div>
+</div>
+
+<script type="module">
+import { createClient } from
+  "https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2/+esm";
+
+const SUPABASE_URL =
+  "https://diyjgvhzztisojzagafn.supabase.co";
+
+const SUPABASE_ANON_KEY =
+  "sb_publishable_T4tIuKg4nePVGKE6yP_v8w_rUMEwzLQ";
+
+const supabase = createClient(
+  SUPABASE_URL,
+  SUPABASE_ANON_KEY
+);
+
+const $ = (id) => document.getElementById(id);
+
+let token = sessionStorage.getItem("stranger_token");
+let conversationId = null;
+let channel = null;
+let searching = false;
+let sending = false;
+let selectedPhoto = null;
+let sendingPhoto = false;
+let reporting = false;
+let knownMessages = new Set();
+
+let messageCache = new Map();
+
+const messageReactionCache = new Map();
+let reactionRefreshInProgress = false;
+let lastReactionRefreshAt = 0;
+
+const REACTION_EMOJIS = [
+  "❤️", "😂", "😍", "😮", "😢", "👍"
+];
+
+let reactionPressTimer = null;
+let reactionPressTarget = null;
+let reactionStartX = 0;
+let reactionStartY = 0;
+
+let replyingTo = null;
+let polling = false;
+let pollTimer = null;
+let modalResolver = null;
+let noticeTimer = null;
+
+// EMOJI INPUT STATE
+const INPUT_EMOJIS = [
+  "😀", "😃", "😄", "😁", "😆", "😅", "😂", "🤣",
+  "😊", "😇", "🙂", "🙃", "😉", "😍", "🥰", "😘",
+  "😋", "😎", "🤩", "🥳", "😏", "😌", "😴", "😭",
+  "😢", "🥺", "😔", "😅", "😤", "😡", "🤔", "🤨",
+  "😮", "😱", "🤗", "🤭", "🫣", "🫡", "🤫", "🤐",
+  "❤️", "🧡", "💛", "💚", "💙", "💜", "🖤", "🤍",
+  "💔", "💕", "💞", "💗", "💖", "💘", "💝", "💯",
+  "👍", "👎", "👏", "🙌", "🙏", "🤝", "💪", "👋",
+  "🤙", "✌️", "🤞", "🫶", "👌", "🫰", "🫵", "👀",
+  "🔥", "✨", "⭐", "🌙", "☀️", "🌈", "🎉", "🎊",
+  "💐", "🌹", "🌷", "🌸", "🍀", "☕", "🍕", "🍟",
+  "🍔", "🍜", "🍰", "🎂", "🎁", "🎧", "🎮", "🚀"
+];
+
+let emojiPanelOpen = false;
+let emojiCursorStart = 0;
+let emojiCursorEnd = 0;
+let shouldReopenKeyboardAfterEmoji = false;
+
+// TYPING INDICATOR STATE
+let realtimeReady = false;
+let localTyping = false;
+let typingIdleTimer = null;
+let typingHeartbeatTimer = null;
+let remoteTypingTimer = null;
+
+// Status tambahan untuk mengelola pembatalan pencarian
+let cancelRequested = false;
+let searchReady = false;
+let searchRequestPromise = null;
+let cancelPromise = null;
+
+// =========================
+// CHAT NOTICE HELPER
+// =========================
+
+function setChatNotice(text, autoHideMs = 0) {
+  clearTimeout(noticeTimer);
+  noticeTimer = null;
+
+  const el = $("chatNotice");
+  if (!el) return;
+
+  el.textContent = text || "";
+
+  if (text && autoHideMs > 0) {
+    noticeTimer = setTimeout(() => {
+      if ($("chatNotice").textContent === text) {
+        $("chatNotice").textContent = "";
+      }
+      noticeTimer = null;
+    }, autoHideMs);
+  }
+}
+
+function clearChatNotice() {
+  clearTimeout(noticeTimer);
+  noticeTimer = null;
+  const el = $("chatNotice");
+  if (el) el.textContent = "";
+}
+
+// =========================
+// CHAT ACTIONS MENU HELPER
+// =========================
+
+function closeChatActionsMenu() {
+  const details = $("chatActionsMenu") || document.querySelector(".chat-actions");
+  if (details && details.open) {
+    details.open = false;
+  }
+}
+
+document.addEventListener("click", (event) => {
+  const details = $("chatActionsMenu") || document.querySelector(".chat-actions");
+  if (!details || !details.open) return;
+  if (!details.contains(event.target)) {
+    details.open = false;
+  }
+});
+
+// =========================
+// TRANSIENT PRESS REFLECTION HELPER
+// =========================
+
+function bindTransientFlash(element, className, durationMs = 170) {
+  if (!element) return;
+  let timer = null;
+
+  const clearFlash = () => {
+    clearTimeout(timer);
+    timer = null;
+    element.classList.remove(className);
+  };
+
+  const triggerFlash = () => {
+    clearFlash();
+    void element.offsetWidth;
+    element.classList.add(className);
+    timer = setTimeout(() => {
+      element.classList.remove(className);
+      timer = null;
+    }, durationMs);
+  };
+
+  element.addEventListener("pointerdown", triggerFlash);
+  element.addEventListener("pointerup", clearFlash);
+  element.addEventListener("pointercancel", clearFlash);
+}
+
+bindTransientFlash($("startBtn"), "is-blue-flash", 180);
+bindTransientFlash($("cancelSearchBtn"), "is-cancel-flash", 160);
+
+// =========================
+// SVG ICONS HELPER
+// =========================
+
+function createTrashIcon(size = 15) {
+  const ns = "http://www.w3.org/2000/svg";
+  const svg = document.createElementNS(ns, "svg");
+  svg.setAttribute("viewBox", "0 0 24 24");
+  svg.setAttribute("width", String(size));
+  svg.setAttribute("height", String(size));
+  svg.setAttribute("fill", "none");
+  svg.setAttribute("stroke", "currentColor");
+  svg.setAttribute("stroke-width", "1.8");
+  svg.setAttribute("stroke-linecap", "round");
+  svg.setAttribute("stroke-linejoin", "round");
+  svg.setAttribute("aria-hidden", "true");
+
+  const paths = [
+    ["path", { d: "M3 6h18" }],
+    ["path", { d: "M8 6V4.5A1.5 1.5 0 0 1 9.5 3h5A1.5 1.5 0 0 1 16 4.5V6" }],
+    ["path", { d: "M19 6l-1 14a2 2 0 0 1-2 1.8H8a2 2 0 0 1-2-1.8L5 6" }],
+    ["line", { x1: "10", y1: "11", x2: "10", y2: "17" }],
+    ["line", { x1: "14", y1: "11", x2: "14", y2: "17" }]
+  ];
+
+  paths.forEach(([tag, attrs]) => {
+    const el = document.createElementNS(ns, tag);
+    Object.entries(attrs).forEach(([k, v]) => el.setAttribute(k, v));
+    svg.appendChild(el);
+  });
+
+  return svg;
+}
+
+function createChevronRightIcon() {
+  const ns = "http://www.w3.org/2000/svg";
+  const svg = document.createElementNS(ns, "svg");
+  svg.setAttribute("viewBox", "0 0 24 24");
+  svg.setAttribute("width", "14");
+  svg.setAttribute("height", "14");
+  svg.setAttribute("fill", "none");
+  svg.setAttribute("stroke", "currentColor");
+  svg.setAttribute("stroke-width", "2");
+  svg.setAttribute("stroke-linecap", "round");
+  svg.setAttribute("stroke-linejoin", "round");
+  svg.setAttribute("aria-hidden", "true");
+  svg.classList.add("context-chevron");
+
+  const poly = document.createElementNS(ns, "polyline");
+  poly.setAttribute("points", "9 18 15 12 9 6");
+  svg.appendChild(poly);
+
+  return svg;
+}
+
+function closeAllMessageMenus(exceptItem = null) {
+  document.querySelectorAll(".message").forEach(msg => {
+    if (msg !== exceptItem) {
+      msg.classList.remove("menu-open");
+      const menu = msg.querySelector(".message-context-menu");
+      if (menu) {
+        menu.style.display = "none";
+        const submenu = menu.querySelector(".message-delete-submenu");
+        if (submenu) submenu.style.display = "none";
+      }
+      const trigger = msg.querySelector(".message-context-option");
+      if (trigger) {
+        trigger.classList.remove("expanded", "is-red-flash");
+      }
+    }
+  });
+}
+
+// =========================
+// EMOJI & GRAPHEME DELETE LOGIC
+// =========================
+
+const graphemeSegmenter =
+  typeof Intl !== "undefined" && typeof Intl.Segmenter === "function"
+    ? new Intl.Segmenter("id", { granularity: "grapheme" })
+    : null;
+
+function getPreviousClusterLength(textBeforeCursor) {
+  if (!textBeforeCursor) return 0;
+
+  if (graphemeSegmenter) {
+    let lastSegment = null;
+    for (const seg of graphemeSegmenter.segment(textBeforeCursor)) {
+      lastSegment = seg;
+    }
+    if (lastSegment) {
+      return lastSegment.segment.length;
+    }
+  }
+
+  const codePoints = Array.from(textBeforeCursor);
+  const lastCodePoint = codePoints[codePoints.length - 1];
+  return lastCodePoint ? lastCodePoint.length : 1;
+}
+
+function deleteFromInput(inputElement, fallbackStart = null, fallbackEnd = null) {
+  if (!inputElement) return;
+
+  const value = inputElement.value;
+  let start = inputElement.selectionStart;
+  let end = inputElement.selectionEnd;
+
+  if (typeof start !== "number" || typeof end !== "number") {
+    start = typeof fallbackStart === "number"
+      ? Math.min(fallbackStart, value.length)
+      : value.length;
+    end = typeof fallbackEnd === "number"
+      ? Math.min(fallbackEnd, value.length)
+      : value.length;
+  }
+
+  if (start === 0 && end === 0) {
+    emojiCursorStart = 0;
+    emojiCursorEnd = 0;
+    return;
+  }
+
+  let newValue;
+  let nextCursor;
+
+  if (start !== end) {
+    newValue = value.slice(0, start) + value.slice(end);
+    nextCursor = start;
+  } else {
+    const beforeCursor = value.slice(0, start);
+    const removeLen = Math.max(1, getPreviousClusterLength(beforeCursor));
+    const deleteFrom = Math.max(0, start - removeLen);
+
+    newValue = value.slice(0, deleteFrom) + value.slice(start);
+    nextCursor = deleteFrom;
+  }
+
+  inputElement.value = newValue;
+  emojiCursorStart = nextCursor;
+  emojiCursorEnd = nextCursor;
+
+  try {
+    inputElement.setSelectionRange(nextCursor, nextCursor);
+  } catch {
+    // Abaikan jika tidak didukung
+  }
+
+  inputElement.scrollLeft = inputElement.scrollWidth;
+
+  inputElement.dispatchEvent(
+    new Event("input", { bubbles: true })
+  );
+}
+
+function renderEmojiPanel() {
+  const grid = $("emojiGrid");
+
+  if (!grid || grid.dataset.ready === "true") return;
+
+  const fragment = document.createDocumentFragment();
+
+  INPUT_EMOJIS.forEach(emoji => {
+    const button = document.createElement("button");
+
+    button.type = "button";
+    button.textContent = emoji;
+    button.setAttribute("aria-label", emoji);
+
+    button.addEventListener("pointerdown", (event) => {
+      event.preventDefault();
+      button.classList.add("is-pressed");
+    });
+
+    const clearEmojiPress = () => {
+      button.classList.remove("is-pressed");
+    };
+
+    button.addEventListener("pointerup", clearEmojiPress);
+    button.addEventListener("pointerleave", clearEmojiPress);
+    button.addEventListener("pointercancel", clearEmojiPress);
+    button.addEventListener("blur", clearEmojiPress);
+
+    button.addEventListener("click", () => {
+      clearEmojiPress();
+      insertEmoji(emoji);
+    });
+
+    fragment.appendChild(button);
+  });
+
+  grid.appendChild(fragment);
+  grid.dataset.ready = "true";
+}
+
+function insertEmoji(emoji) {
+  const input = $("messageInput");
+
+  const currentValue = input.value;
+
+  const rawStart = typeof input.selectionStart === "number"
+    ? input.selectionStart
+    : emojiCursorStart;
+  const rawEnd = typeof input.selectionEnd === "number"
+    ? input.selectionEnd
+    : emojiCursorEnd;
+
+  const start = Math.min(Math.max(0, rawStart), currentValue.length);
+  const end = Math.min(Math.max(start, rawEnd), currentValue.length);
+
+  const newValue =
+    currentValue.slice(0, start) +
+    emoji +
+    currentValue.slice(end);
+
+  if (newValue.length > input.maxLength) return;
+
+  input.value = newValue;
+
+  const cursorPosition = start + emoji.length;
+
+  emojiCursorStart = cursorPosition;
+  emojiCursorEnd = cursorPosition;
+
+  try {
+    input.setSelectionRange(cursorPosition, cursorPosition);
+  } catch {
+    // Abaikan jika tidak didukung
+  }
+
+  requestAnimationFrame(() => {
+    try {
+      input.setSelectionRange(cursorPosition, cursorPosition);
+    } catch {
+      // Abaikan jika tidak didukung
+    }
+    input.scrollLeft = input.scrollWidth;
+  });
+
+  input.dispatchEvent(
+    new Event("input", { bubbles: true })
+  );
+}
+
+function attachHoldDelete(buttonElement, onDeleteStep, options = {}) {
+  if (!buttonElement) return;
+
+  const { flashClass = null, flashDuration = 150 } = options;
+  let deleteInterval = null;
+  let deleteDelay = null;
+  let flashTimer = null;
+  let handledByHold = false;
+
+  const clearFlash = () => {
+    clearTimeout(flashTimer);
+    flashTimer = null;
+    if (flashClass) {
+      buttonElement.classList.remove(flashClass);
+    }
+  };
+
+  const triggerRedFlash = () => {
+    if (!flashClass) return;
+    clearFlash();
+    void buttonElement.offsetWidth;
+    buttonElement.classList.add(flashClass);
+    flashTimer = setTimeout(() => {
+      buttonElement.classList.remove(flashClass);
+      flashTimer = null;
+    }, flashDuration);
+  };
+
+  const clearPressVisual = () => {
+    buttonElement.classList.remove("is-holding");
+    clearFlash();
+  };
+
+  const stopDeleting = () => {
+    clearTimeout(deleteDelay);
+    clearInterval(deleteInterval);
+    deleteDelay = null;
+    deleteInterval = null;
+    clearPressVisual();
+  };
+
+  buttonElement.addEventListener("pointerdown", (event) => {
+    event.preventDefault();
+    stopDeleting();
+    handledByHold = false;
+    buttonElement.classList.add("is-holding");
+    triggerRedFlash();
+
+    onDeleteStep();
+
+    deleteDelay = setTimeout(() => {
+      handledByHold = true;
+      deleteInterval = setInterval(() => {
+        onDeleteStep();
+      }, 65);
+    }, 280);
+  });
+
+  buttonElement.addEventListener("pointerup", (event) => {
+    event.preventDefault();
+    stopDeleting();
+  });
+
+  buttonElement.addEventListener("pointerleave", stopDeleting);
+  buttonElement.addEventListener("pointercancel", stopDeleting);
+
+  buttonElement.addEventListener("click", (event) => {
+    event.preventDefault();
+    stopDeleting();
+    if (handledByHold) {
+      handledByHold = false;
+    }
+  });
+}
+
+/* ===== STRANGER KEYBOARD SYSTEM ===== */
+
+const strangerInput = $("messageInput");
+const strangerKeyboard = $("strangerKeyboard");
+const keyboardKeys = $("keyboardKeys");
+
+const isTouchDevice =
+  window.matchMedia("(pointer: coarse)").matches ||
+  navigator.maxTouchPoints > 0;
+
+let keyboardShift = false;
+let keyboardSymbols = false;
+
+if (isTouchDevice) {
+  strangerInput.setAttribute("inputmode", "none");
+}
+
+function openStrangerKeyboard() {
+  if (!isTouchDevice || emojiPanelOpen || !conversationId) return;
+
+  strangerKeyboard.hidden = false;
+  renderStrangerKeyboard();
+}
+
+function closeStrangerKeyboard(keepReturnFlag = false) {
+  strangerKeyboard.hidden = true;
+  if (!keepReturnFlag) {
+    shouldReopenKeyboardAfterEmoji = false;
+  }
+  if (document.activeElement === strangerInput) {
+    strangerInput.blur();
+  }
+}
+
+function setEmojiPanel(open, options = {}) {
+  const { restoreKeyboardOnClose = false } = options;
+  const wasOpen = emojiPanelOpen;
+  emojiPanelOpen = open;
+
+  const panel = $("emojiPanel");
+  const toggle = $("emojiToggleBtn");
+
+  panel.hidden = !open;
+
+  if (open) {
+    const keyboardWasVisible = !strangerKeyboard.hidden;
+    if (keyboardWasVisible) {
+      shouldReopenKeyboardAfterEmoji = true;
+    }
+    closeStrangerKeyboard(true);
+    renderEmojiPanel();
+  } else if (wasOpen) {
+    const shouldReopen = restoreKeyboardOnClose || shouldReopenKeyboardAfterEmoji;
+    shouldReopenKeyboardAfterEmoji = false;
+    if (shouldReopen && conversationId) {
+      openStrangerKeyboard();
+    }
+  }
+
+  toggle.innerHTML = open
+    ? `<svg viewBox="0 0 24 24" aria-hidden="true">
+         <rect x="3" y="5" width="18" height="14" rx="2"/>
+         <path d="M7 9h.01M10 9h.01M13 9h.01M16 9h.01M7 12h.01M10 12h.01M13 12h.01M16 12h.01M9 16h6"/>
+       </svg>`
+    : `<svg viewBox="0 0 24 24" aria-hidden="true">
+         <circle cx="12" cy="12" r="9"/>
+         <path d="M8 14s1.5 2 4 2 4-2 4-2"/>
+         <path d="M9 9h.01M15 9h.01"/>
+       </svg>`;
+
+  toggle.setAttribute(
+    "aria-label",
+    open ? "Tutup emoji" : "Buka panel emoji"
+  );
+
+  toggle.setAttribute(
+    "aria-expanded",
+    String(open)
+  );
+}
+
+function toggleEmojiPanel() {
+  if (emojiPanelOpen) {
+    setEmojiPanel(false, { restoreKeyboardOnClose: true });
+    return;
+  }
+
+  const input = $("messageInput");
+
+  emojiCursorStart = input.selectionStart ?? input.value.length;
+  emojiCursorEnd = input.selectionEnd ?? input.value.length;
+
+  setEmojiPanel(true);
+  input.blur();
+}
+
+function insertKeyboardText(value) {
+  const input = strangerInput;
+
+  const currentValue = input.value;
+  const start = input.selectionStart ?? currentValue.length;
+  const end = input.selectionEnd ?? currentValue.length;
+
+  const newValue =
+    currentValue.slice(0, start) +
+    value +
+    currentValue.slice(end);
+
+  if (newValue.length > input.maxLength) return;
+
+  input.value = newValue;
+
+  const cursor = start + value.length;
+  emojiCursorStart = cursor;
+  emojiCursorEnd = cursor;
+
+  try {
+    input.setSelectionRange(cursor, cursor);
+  } catch {
+    // Abaikan jika tidak didukung
+  }
+
+  input.scrollLeft = input.scrollWidth;
+
+  input.dispatchEvent(
+    new Event("input", { bubbles: true })
+  );
+}
+
+function deleteKeyboardText() {
+  deleteFromInput(strangerInput, emojiCursorStart, emojiCursorEnd);
+}
+
+function renderStrangerKeyboard() {
+  if (!keyboardKeys) return;
+
+  keyboardKeys.replaceChildren();
+
+  const rows = keyboardSymbols
+    ? [
+        ["1","2","3","4","5","6","7","8","9","0"],
+        ["@","#","$","%","&","-","+","(",")","/"],
+        ["=","*","\"","'",":",";","!","?","⌫"],
+        ["ABC",",","SPACE",".","↵"]
+      ]
+    : [
+        ["q","w","e","r","t","y","u","i","o","p"],
+        ["a","s","d","f","g","h","j","k","l"],
+        ["⇧","z","x","c","v","b","n","m","⌫"],
+        ["?123",",","SPACE",".","↵"]
+      ];
+
+  rows.forEach((row) => {
+    const rowElement = document.createElement("div");
+    rowElement.className = "keyboard-row";
+
+    row.forEach((key) => {
+      const button = document.createElement("button");
+
+      button.type = "button";
+      button.className = "keyboard-key";
+
+      let label = key;
+
+      if (key === "SPACE") label = "Spasi";
+      if (key === "⇧") label = "⇧";
+      if (key === "⌫") label = "⌫";
+      if (key === "↵") label = "Enter";
+
+      button.textContent = label;
+
+      if (
+        ["⇧","⌫","?123","ABC","SPACE","↵",","]
+          .includes(key)
+      ) {
+        button.classList.add("special");
+      }
+
+      if (key === "⌫") {
+        button.classList.add("delete-key");
+      }
+
+      if (key === "↵") {
+        button.classList.add("accent");
+      }
+
+      if (key === "SPACE") {
+        button.classList.add("space");
+      }
+
+      button.addEventListener("pointerdown", (event) => {
+        event.preventDefault();
+      });
+
+      if (key === "⌫") {
+        attachHoldDelete(button, deleteKeyboardText, {
+          flashClass: "is-red-flash",
+          flashDuration: 150
+        });
+      } else {
+        button.addEventListener("pointerdown", (event) => {
+          event.preventDefault();
+          handleKeyboardKey(key);
+        });
+      }
+
+      rowElement.appendChild(button);
+    });
+
+    keyboardKeys.appendChild(rowElement);
+  });
+}
+
+function handleKeyboardKey(key) {
+  if (key === "⇧") {
+    keyboardShift = !keyboardShift;
+    renderStrangerKeyboard();
+    return;
+  }
+
+  if (key === "⌫") {
+    deleteKeyboardText();
+    return;
+  }
+
+  if (key === "?123") {
+    keyboardSymbols = true;
+    renderStrangerKeyboard();
+    return;
+  }
+
+  if (key === "ABC") {
+    keyboardSymbols = false;
+    renderStrangerKeyboard();
+    return;
+  }
+
+  if (key === "SPACE") {
+    insertKeyboardText(" ");
+    return;
+  }
+
+  if (key === "↵") {
+    sendMessage();
+    closeStrangerKeyboard();
+    return;
+  }
+
+  const value =
+    keyboardShift && !keyboardSymbols
+      ? key.toUpperCase()
+      : key;
+
+  insertKeyboardText(value);
+
+  if (keyboardShift && !keyboardSymbols) {
+    keyboardShift = false;
+    renderStrangerKeyboard();
+  }
+}
+
+$("emojiToggleBtn").addEventListener(
+  "click",
+  toggleEmojiPanel
+);
+
+$("emojiDeleteBtn") && attachHoldDelete(
+  $("emojiDeleteBtn"),
+  () => {
+    deleteFromInput(strangerInput, emojiCursorStart, emojiCursorEnd);
+  },
+  {
+    flashClass: "is-red-flash",
+    flashDuration: 150
+  }
+);
+
+$("emojiCloseBtn") && $("emojiCloseBtn").addEventListener("pointerdown", (event) => {
+  event.preventDefault();
+});
+
+$("emojiCloseBtn") && $("emojiCloseBtn").addEventListener("click", () => {
+  setEmojiPanel(false, { restoreKeyboardOnClose: true });
+});
+
+$("keyboardHideBtn").addEventListener(
+  "pointerdown",
+  (event) => event.preventDefault()
+);
+
+$("keyboardHideBtn").addEventListener(
+  "click",
+  () => {
+    closeStrangerKeyboard(false);
+  }
+);
+
+function handleInputOpenKeyboard() {
+  if (emojiPanelOpen || !conversationId) return;
+  openStrangerKeyboard();
+}
+
+strangerInput.addEventListener("focus", handleInputOpenKeyboard);
+strangerInput.addEventListener("click", handleInputOpenKeyboard);
+strangerInput.addEventListener("pointerup", handleInputOpenKeyboard);
+
+// =========================
+// SEARCH UI CONTROL
+// =========================
+
+function setSearchingUI(active) {
+  searching = active;
+
+  $("startBtn").disabled = active;
+
+  const radar = $("searchRadar");
+  if (radar) {
+    radar.hidden = !active;
+  }
+
+  $("cancelSearchBtn").hidden = !active;
+  $("cancelSearchBtn").disabled = false;
+
+  if (!active) {
+    cancelRequested = false;
+    searchReady = false;
+    searchRequestPromise = null;
+  }
+}
+
+// =========================
+// LEGAL PAGES
+// =========================
+
+const legalPages = {
+  privacy: `
+    <p class="legal-meta">
+      STRANGER · Terakhir diperbarui: 21 November 2026
+    </p>
+
+    <h3>1. Tentang Privasi</h3>
+    <p>
+      STRANGER adalah layanan percakapan teks acak yang dirancang
+      agar pengguna dapat berbincang tanpa menampilkan profil
+      atau identitas publik.
+    </p>
+
+    <h3>2. Informasi yang Diproses</h3>
+    <p>
+      Untuk menjalankan layanan, STRANGER memproses data teknis
+      yang diperlukan, seperti identitas sesi anonim, token sesi,
+      informasi percakapan, dan pesan yang dikirimkan.
+    </p>
+
+    <h3>3. Percakapan</h3>
+    <p>
+      Pesan diproses dan disimpan pada sistem server agar
+      percakapan dapat berjalan dan tersinkronisasi. Anonim
+      bukan berarti pesan tidak diproses atau tidak disimpan.
+    </p>
+
+    <h3>4. Keamanan</h3>
+    <p>
+      STRANGER menerapkan langkah teknis untuk membantu
+      melindungi sesi dan data pengguna. Namun, tidak ada
+      layanan internet yang dapat menjamin keamanan mutlak.
+    </p>
+
+    <h3>5. Laporan Pengguna</h3>
+    <p>
+      Pengguna dapat melaporkan perilaku yang dianggap
+      melanggar aturan. Informasi laporan dapat diproses
+      untuk membantu menjaga keamanan layanan.
+    </p>
+
+    <h3>6. Informasi Pribadi</h3>
+    <p>
+      Jangan membagikan nama lengkap, alamat, nomor telepon,
+      kata sandi, informasi keuangan, atau informasi pribadi
+      lainnya kepada orang yang tidak dikenal.
+    </p>
+
+    <h3>7. Perubahan Kebijakan</h3>
+    <p>
+      Kebijakan ini dapat diperbarui sewaktu-waktu mengikuti
+      perkembangan dan kebutuhan layanan STRANGER.
+    </p>
+  `,
+
+  rules: `
+    <p class="legal-meta">
+      STRANGER · Aturan Penggunaan
+    </p>
+
+    <p>
+      Dengan menggunakan STRANGER, kamu setuju untuk
+      menggunakan layanan ini secara bertanggung jawab.
+    </p>
+
+    <h3>1. Hormati Pengguna Lain</h3>
+    <p>
+      Jangan melakukan pelecehan, intimidasi, ancaman,
+      penghinaan, atau tindakan yang merugikan pengguna lain.
+    </p>
+
+    <h3>2. Dilarang Melakukan Penipuan</h3>
+    <p>
+      Jangan menggunakan STRANGER untuk menipu, memeras,
+      meminta uang, atau melakukan tindakan yang melanggar hukum.
+    </p>
+
+    <h3>3. Jangan Membagikan Informasi Berbahaya</h3>
+    <p>
+      Jangan mengirimkan informasi pribadi, tautan berbahaya,
+      spam, atau konten yang dapat membahayakan pengguna lain.
+    </p>
+
+    <h3>4. Jaga Privasi</h3>
+    <p>
+      Jangan meminta atau menyebarkan identitas dan informasi
+      pribadi orang lain tanpa persetujuan mereka.
+    </p>
+
+    <h3>5. Gunakan Fitur Laporan</h3>
+    <p>
+      Jika menemukan perilaku yang tidak pantas, gunakan fitur
+      Laporkan Pengguna. Jangan menyalahgunakan fitur laporan
+      untuk mengganggu pengguna lain.
+    </p>
+
+    <h3>6. Tanggung Jawab Pengguna</h3>
+    <p>
+      Setiap pengguna bertanggung jawab atas pesan dan tindakan
+      yang mereka lakukan selama menggunakan STRANGER.
+    </p>
+
+    <h3>7. Penegakan Aturan</h3>
+    <p>
+      STRANGER dapat mengambil tindakan yang diperlukan
+      terhadap aktivitas yang melanggar aturan atau
+      membahayakan layanan dan penggunanya.
+    </p>
+  `,
+
+  about: `
+    <p class="legal-meta">
+      STRANGER · Anonymous Random Chat
+    </p>
+
+    <h3>Meet someone. Be yourself.</h3>
+    <p>
+      STRANGER adalah tempat untuk memulai percakapan acak
+      dengan seseorang di luar sana.
+    </p>
+
+    <p>
+      Tanpa profil publik, tanpa identitas yang ditampilkan,
+      dan tanpa tekanan untuk menjadi orang lain.
+    </p>
+
+    <h3>Our Idea</h3>
+    <p>
+      Terkadang percakapan paling menarik justru datang
+      dari orang yang belum pernah kita kenal.
+    </p>
+
+    <h3>Stay Anonymous</h3>
+    <p>
+      Jaga privasi, hormati satu sama lain, dan gunakan
+      STRANGER dengan bijak.
+    </p>
+
+    <p class="legal-brand">
+      ANONYMOUS · RANDOM · REAL
+    </p>
+  `
+};
+
+// =========================
+// CUSTOM MODAL SYSTEM
+// =========================
+
+function closeModal(value = null) {
+  $("appModal").hidden = true;
+
+  if (modalResolver) {
+    const resolve = modalResolver;
+    modalResolver = null;
+    resolve(value);
+  }
+}
+
+function showModal(title, content, actions = []) {
+  if (modalResolver) {
+    closeModal(null);
+  }
+
+  $("modalTitle").textContent = title;
+  $("modalBody").innerHTML = content;
+  $("modalActions").innerHTML = "";
+
+  for (const action of actions) {
+    const button = document.createElement("button");
+
+    button.type = "button";
+    button.className =
+      "modal-action-btn " + (action.className || "");
+
+    button.textContent = action.label;
+
+    button.addEventListener("click", () => {
+      closeModal(action.value);
+    });
+
+    $("modalActions").appendChild(button);
+  }
+
+  $("appModal").hidden = false;
+
+  return new Promise(resolve => {
+    modalResolver = resolve;
+  });
+}
+
+function showLegalPage(page) {
+  const titles = {
+    privacy: "Kebijakan Privasi",
+    rules: "Aturan Penggunaan",
+    about: "Tentang STRANGER"
+  };
+
+  if (!legalPages[page]) return;
+
+  showModal(
+    titles[page],
+    legalPages[page],
+    [
+      {
+        label: "Tutup",
+        value: true,
+        className: "primary"
+      }
+    ]
+  );
+}
+
+document.querySelectorAll("[data-legal]").forEach(button => {
+  button.addEventListener("click", () => {
+    showLegalPage(button.dataset.legal);
+  });
+});
+
+$("modalCloseBtn").addEventListener("click", () => {
+  closeModal(null);
+});
+
+$("appModal").addEventListener("click", event => {
+  if (event.target.dataset.modalClose === "true") {
+    closeModal(null);
+  }
+});
+
+async function showConfirmation(title, message, confirmText) {
+  return await showModal(
+    title,
+    `<p>${message}</p>`,
+    [
+      {
+        label: "Batal",
+        value: false
+      },
+      {
+        label: confirmText,
+        value: true,
+        className: "danger"
+      }
+    ]
+  );
+}
+
+// =========================
+// SCREEN NAVIGATION
+// =========================
+
+function showScreen(name) {
+  document.querySelectorAll(".screen").forEach(screen => {
+    screen.classList.remove("active");
+  });
+
+  $(name).classList.add("active");
+}
+
+function delay(ms) {
+  return new Promise(resolve => setTimeout(resolve, ms));
+}
+
+// =========================
+// TYPING INDICATOR
+// =========================
+
+async function sendTypingBroadcast(isTyping) {
+  if (!channel || !realtimeReady) return;
+
+  const activeChannel = channel;
+
+  try {
+    await activeChannel.send({
+      type: "broadcast",
+      event: "typing",
+      payload: {
+        isTyping
+      }
+    });
+  } catch (error) {
+    console.warn("Typing broadcast gagal:", error);
+  }
+}
+
+function showRemoteTyping(isTyping) {
+  clearTimeout(remoteTypingTimer);
+
+  if (!isTyping) {
+    $("typingIndicator").hidden = true;
+    return;
+  }
+
+  $("typingIndicator").hidden = false;
+
+  remoteTypingTimer = setTimeout(() => {
+    $("typingIndicator").hidden = true;
+  }, 3500);
+}
+
+function stopLocalTyping() {
+  clearTimeout(typingIdleTimer);
+  clearInterval(typingHeartbeatTimer);
+
+  typingIdleTimer = null;
+  typingHeartbeatTimer = null;
+
+  if (localTyping) {
+    localTyping = false;
+    sendTypingBroadcast(false);
+  }
+}
+
+function resetTypingState() {
+  stopLocalTyping();
+
+  clearTimeout(remoteTypingTimer);
+  remoteTypingTimer = null;
+
+  $("typingIndicator").hidden = true;
+}
+
+function handleTypingInput() {
+  if (!conversationId) return;
+
+  const value = $("messageInput").value;
+
+  if (!value.trim()) {
+    stopLocalTyping();
+    return;
+  }
+
+  if (!localTyping) {
+    localTyping = true;
+    sendTypingBroadcast(true);
+  }
+
+  if (!typingHeartbeatTimer) {
+    typingHeartbeatTimer = setInterval(() => {
+      if (localTyping) {
+        sendTypingBroadcast(true);
+      }
+    }, 2000);
+  }
+
+  clearTimeout(typingIdleTimer);
+
+  typingIdleTimer = setTimeout(() => {
+    stopLocalTyping();
+  }, 1500);
+}
+
+// =========================
+// AUTHENTICATION
+// =========================
+
+async function getAuthSession() {
+  const { data, error } = await supabase.auth.getSession();
+
+  if (error) throw error;
+
+  if (data.session) return data.session;
+
+  const { data: authData, error: authError } =
+    await supabase.auth.signInAnonymously();
+
+  if (authError) throw authError;
+
+  if (!authData.session) {
+    throw new Error("Gagal membuat identitas anonim.");
+  }
+
+  return authData.session;
+}
+
+async function callFunction(name, body) {
+  const authSession = await getAuthSession();
+
+  const response = await fetch(
+    `${SUPABASE_URL}/functions/v1/${name}`,
+    {
+      method: "POST",
+      headers: {
+        "Content-Type": "application/json",
+        "apikey": SUPABASE_ANON_KEY,
+        "Authorization": `Bearer ${authSession.access_token}`
+      },
+      body: JSON.stringify(body)
+    }
+  );
+
+  let result;
+
+  try {
+    result = await response.json();
+  } catch {
+    throw new Error(`Respons server ${name} tidak valid.`);
+  }
+
+  if (!response.ok || result.success === false) {
+    throw new Error(
+      result.error || result.message ||
+      `Gagal menjalankan ${name}`
+    );
+  }
+
+  return result;
+}
+
+async function createStrangerSession() {
+  const result = await callFunction("smooth-task", {});
+
+  if (!result.token) {
+    throw new Error(
+      "Token sesi tidak tersedia. Pemulihan sesi perlu dilakukan."
+    );
+  }
+
+  token = result.token;
+  sessionStorage.setItem("stranger_token", token);
+}
+
+// =========================
+// STRANGER PHOTO FUNCTIONS
+// =========================
+
+async function processPhoto(file) {
+  if (!file) {
+    throw new Error("Pilih foto terlebih dahulu.");
+  }
+
+  const allowedTypes = [
+    "image/jpeg",
+    "image/png",
+    "image/webp"
+  ];
+
+  if (!allowedTypes.includes(file.type)) {
+    throw new Error("Format foto harus JPG, PNG, atau WebP.");
+  }
+
+  if (file.size > 20 * 1024 * 1024) {
+    throw new Error("Ukuran foto asli maksimal 20 MB.");
+  }
+
+  let bitmap;
+
+  try {
+    bitmap = await createImageBitmap(file);
+
+    const maxDimension = 1920;
+
+    const scale = Math.min(
+      1,
+      maxDimension / Math.max(bitmap.width, bitmap.height)
+    );
+
+    const width = Math.max(1, Math.round(bitmap.width * scale));
+    const height = Math.max(1, Math.round(bitmap.height * scale));
+
+    const canvas = document.createElement("canvas");
+    canvas.width = width;
+    canvas.height = height;
+
+    const context = canvas.getContext("2d");
+
+    if (!context) {
+      throw new Error("Gagal memproses foto.");
+    }
+
+    context.drawImage(bitmap, 0, 0, width, height);
+
+    const blob = await new Promise((resolve, reject) => {
+      canvas.toBlob(
+        result => {
+          if (result) {
+            resolve(result);
+          } else {
+            reject(new Error("Gagal mengolah foto."));
+          }
+        },
+        file.type,
+        file.type === "image/png" ? undefined : 0.86
+      );
+    });
+
+    if (blob.size > 8 * 1024 * 1024) {
+      throw new Error(
+        "Hasil foto masih lebih dari 8 MB. Pilih foto yang lebih kecil."
+      );
+    }
+
+    const extension = {
+      "image/jpeg": "jpg",
+      "image/png": "png",
+      "image/webp": "webp"
+    }[file.type];
+
+    return new File(
+      [blob],
+      `stranger-photo-${Date.now()}.${extension}`,
+      { type: file.type }
+    );
+
+  } catch (error) {
+    throw new Error(
+      error.message || "Foto gagal diproses. Coba foto lain."
+    );
+
+  } finally {
+    if (bitmap) bitmap.close();
+  }
+}
+
+function clearSelectedPhoto() {
+  selectedPhoto = null;
+
+  $("photoInput").value = "";
+  $("photoPreview").hidden = true;
+  $("photoFileName").textContent = "Foto dipilih";
+}
+
+async function handlePhotoSelection() {
+  const file = $("photoInput").files[0];
+
+  if (!file) return;
+
+  setEmojiPanel(false);
+  closeStrangerKeyboard();
+  closeChatActionsMenu();
+
+  setChatNotice("Memproses foto...");
+
+  try {
+    selectedPhoto = await processPhoto(file);
+
+    $("photoFileName").textContent = selectedPhoto.name;
+    $("photoPreview").hidden = false;
+
+    setChatNotice("Foto siap dikirim.", 3000);
+
+  } catch (error) {
+    clearSelectedPhoto();
+
+    setChatNotice(error.message, 4000);
+  }
+}
+
+async function sendPhoto() {
+  if (!selectedPhoto || sendingPhoto || sending || !conversationId) {
+    return;
+  }
+
+  sendingPhoto = true;
+
+  $("sendBtn").disabled = true;
+  setChatNotice("Mengirim foto...");
+
+  const currentConversation = conversationId;
+  const currentToken = token;
+  const photoToSend = selectedPhoto;
+
+  try {
+    const authSession = await getAuthSession();
+
+    const form = new FormData();
+
+    form.append("token", currentToken);
+    form.append("conversationId", currentConversation);
+    form.append("file", photoToSend, photoToSend.name);
+
+    const response = await fetch(
+      `${SUPABASE_URL}/functions/v1/send-photo`,
+      {
+        method: "POST",
+        headers: {
+          "apikey": SUPABASE_ANON_KEY,
+          "Authorization": `Bearer ${authSession.access_token}`
+        },
+        body: form
+      }
+    );
+
+    let result;
+
+    try {
+      result = await response.json();
+    } catch {
+      throw new Error("Respons server tidak valid.");
+    }
+
+    if (!response.ok || result.success === false) {
+      throw new Error(
+        result.error || result.message || "Foto gagal dikirim."
+      );
+    }
+
+    if (!result.message) {
+      throw new Error("Server tidak mengembalikan data foto.");
+    }
+
+    if (conversationId !== currentConversation) {
+      return;
+    }
+
+    addMessage({
+      ...result.message,
+      isMine: true,
+      reply: null
+    });
+
+    setEmojiPanel(false);
+    closeStrangerKeyboard();
+
+    clearSelectedPhoto();
+    cancelReply();
+
+    clearChatNotice();
+
+  } catch (error) {
+    setChatNotice("Foto gagal dikirim: " + error.message, 4500);
+
+  } finally {
+    sendingPhoto = false;
+    $("sendBtn").disabled = false;
+  }
+}
+
+function handleSendAction() {
+  if (selectedPhoto) {
+    sendPhoto();
+  } else {
+    sendMessage();
+  }
+}
+
+// =========================
+// OPEN RECEIVED PHOTO
+// =========================
+
+function openPhotoViewer(photoUrl) {
+  const overlay = document.createElement("div");
+  overlay.className = "photo-fullscreen";
+
+  const close = document.createElement("button");
+  close.className = "photo-fullscreen-btn";
+  close.type = "button";
+  close.textContent = "×";
+  close.setAttribute("aria-label", "Tutup foto");
+
+  const stage = document.createElement("div");
+  stage.className = "photo-fullscreen-stage";
+
+  const image = document.createElement("img");
+  image.className = "photo-fullscreen-image";
+  image.src = photoUrl;
+  image.alt = "Foto rahasia";
+
+  let scale = 1;
+  let startDistance = 0;
+  let startScale = 1;
+
+  function getDistance(touches) {
+    const dx = touches[0].clientX - touches[1].clientX;
+    const dy = touches[0].clientY - touches[1].clientY;
+
+    return Math.hypot(dx, dy);
+  }
+
+  stage.addEventListener("touchstart", event => {
+    if (event.touches.length === 2) {
+      startDistance = getDistance(event.touches);
+      startScale = scale;
+    }
+  }, { passive: true });
+
+  stage.addEventListener("touchmove", event => {
+    if (event.touches.length === 2) {
+      event.preventDefault();
+
+      const distance = getDistance(event.touches);
+
+      scale = Math.min(
+        4,
+        Math.max(1, startScale * distance / startDistance)
+      );
+
+      image.style.transform = `scale(${scale})`;
+    }
+  }, { passive: false });
+
+  function closeViewer() {
+    overlay.remove();
+    document.removeEventListener("keydown", handleKey);
+  }
+
+  function handleKey(event) {
+    if (event.key === "Escape") {
+      closeViewer();
+    }
+  }
+
+  close.addEventListener("click", closeViewer);
+  document.addEventListener("keydown", handleKey);
+
+  stage.appendChild(image);
+  overlay.append(close, stage);
+  document.body.appendChild(overlay);
+}
+
+async function openReceivedPhoto(message, card, button) {
+  if (!message || !message.id || !conversationId) return;
+  if (button.disabled) return;
+
+  button.disabled = true;
+
+  const view = card.querySelector(".photo-view");
+
+  if (!view) {
+    button.disabled = false;
+    return;
+  }
+
+  view.textContent = "Membuka foto...";
+
+  try {
+    const currentConversation = conversationId;
+
+    const result = await callFunction(
+      "open-photo",
+      {
+        token,
+        conversationId: currentConversation,
+        messageId: message.id
+      }
+    );
+
+    if (conversationId !== currentConversation) return;
+
+    if (!result.success || !result.photoUrl) {
+      throw new Error(
+        result.message || "Foto tidak dapat dibuka."
+      );
+    }
+
+    const expiresAt = new Date(
+      result.expiresAt
+    ).getTime();
+
+    if (!Number.isFinite(expiresAt)) {
+      throw new Error("Waktu kedaluwarsa foto tidak valid.");
+    }
+
+    if (card.photoCountdownInterval) {
+      clearInterval(card.photoCountdownInterval);
+    }
+
+    message.photo_opened_at = result.openedAt;
+    message.photo_expires_at = result.expiresAt;
+
+    view.textContent = "";
+
+    const image = document.createElement("img");
+    image.alt = "Foto rahasia";
+    image.src = result.photoUrl;
+    image.style.cursor = "zoom-in";
+
+    image.addEventListener("click", () => {
+      openPhotoViewer(result.photoUrl);
+    });
+
+    const countdown = document.createElement("div");
+    countdown.className = "photo-countdown";
+
+    view.append(image, countdown);
+
+    const title = button.querySelector(
+      ".photo-message-title"
+    );
+
+    if (title) {
+      title.textContent = "Foto sedang dibuka";
+    }
+
+    function expirePhoto() {
+      if (card.photoCountdownInterval) {
+        clearInterval(card.photoCountdownInterval);
+        card.photoCountdownInterval = null;
+      }
+
+      image.remove();
+      countdown.textContent = "";
+
+      const expired = document.createElement("div");
+      expired.className = "photo-expired";
+      expired.textContent = "Foto sudah kedaluwarsa";
+
+      view.appendChild(expired);
+
+      if (title) {
+        title.textContent = "Foto";
+      }
+
+      button.disabled = true;
+    }
+
+    function updateCountdown() {
+      const remaining = Math.max(
+        0,
+        Math.ceil((expiresAt - Date.now()) / 1000)
+      );
+
+      if (remaining <= 0) {
+        expirePhoto();
+        return;
+      }
+
+      countdown.textContent =
+        `Foto akan kedaluwarsa dalam ${remaining} detik`;
+    }
+
+    image.addEventListener("error", () => {
+      image.remove();
+      countdown.textContent = "Foto gagal dimuat.";
+    });
+
+    updateCountdown();
+
+    if (Date.now() < expiresAt) {
+      card.photoCountdownInterval = setInterval(
+        updateCountdown,
+        250
+      );
+    }
+
+  } catch (error) {
+    view.textContent = "";
+    button.disabled = false;
+
+    const title = button.querySelector(
+      ".photo-message-title"
+    );
+
+    if (title) {
+      title.textContent = "Foto";
+    }
+
+    setChatNotice(
+      "Foto tidak dapat dibuka: " + (error.message || "Terjadi kesalahan."),
+      4500
+    );
+  }
+}
+
+// =========================
+// SERVER-SIDE CANCEL SEARCH
+// =========================
+
+async function finishCancelSearch() {
+  if (cancelPromise) return cancelPromise;
+
+  if (!token) {
+    throw new Error("Token sesi belum tersedia.");
+  }
+
+  cancelPromise = (async () => {
+    const result = await callFunction(
+      "cancel-search",
+      { token }
+    );
+
+    if (result.matched && result.conversationId) {
+      cancelRequested = false;
+      await openChat(result.conversationId);
+      return;
+    }
+
+    setSearchingUI(false);
+
+    $("homeStatus").textContent = result.cancelled
+      ? "Pencarian berhasil dibatalkan."
+      : "Tidak ada antrean pencarian aktif.";
+  })();
+
+  try {
+    await cancelPromise;
+  } finally {
+    cancelPromise = null;
+  }
+}
+
+async function cancelSearch() {
+  if (!searching || cancelRequested) return;
+
+  cancelRequested = true;
+
+  $("cancelSearchBtn").disabled = true;
+
+  $("homeStatus").textContent =
+    "Membatalkan pencarian...";
+
+  if (!searchReady) return;
+
+  if (searchRequestPromise) {
+    try {
+      await searchRequestPromise;
+    } catch (error) {
+      console.warn("Permintaan pencarian selesai dengan error:", error);
+    }
+  }
+
+  if (!searching) return;
+
+  try {
+    await finishCancelSearch();
+  } catch (error) {
+    $("cancelSearchBtn").disabled = false;
+    $("homeStatus").textContent =
+      "Pembatalan gagal: " + error.message;
+    cancelRequested = false;
+  }
+}
+
+$("cancelSearchBtn").addEventListener(
+  "click",
+  cancelSearch
+);
+
+// =========================
+// SEARCH PARTNER
+// =========================
+
+async function startSearch() {
+  if (searching) return;
+
+  cancelRequested = false;
+  searchReady = false;
+  searchRequestPromise = null;
+
+  setSearchingUI(true);
+
+  $("homeStatus").textContent =
+    "Menyiapkan identitas anonim...";
+
+  try {
+    await getAuthSession();
+    await createStrangerSession();
+
+    searchReady = true;
+
+    if (cancelRequested) {
+      await finishCancelSearch();
+      return;
+    }
+
+    $("homeStatus").textContent =
+      "Sedang mencari seseorang...";
+
+    searchRequestPromise = callFunction(
+      "find-partner",
+      { token }
+    );
+
+    let result;
+
+    try {
+      result = await searchRequestPromise;
+    } finally {
+      searchRequestPromise = null;
+    }
+
+    if (cancelRequested) {
+      await finishCancelSearch();
+      return;
+    }
+
+    if (result.matched && result.conversationId) {
+      await openChat(result.conversationId);
+      return;
+    }
+
+    await waitForMatch();
+
+  } catch (error) {
+    if (cancelRequested) {
+      try {
+        if (token) {
+          await finishCancelSearch();
+        } else {
+          setSearchingUI(false);
+          $("homeStatus").textContent =
+            "Pencarian dibatalkan.";
+        }
+      } catch (cancelError) {
+        setSearchingUI(false);
+        $("homeStatus").textContent =
+          "Pembatalan gagal: " + cancelError.message;
+      }
+
+      return;
+    }
+
+    setSearchingUI(false);
+
+    $("homeStatus").textContent =
+      "Gagal: " + error.message;
+  }
+}
+
+async function waitForMatch() {
+  while (searching && !cancelRequested) {
+    await delay(2000);
+
+    if (!searching || cancelRequested) break;
+
+    try {
+      const result = await callFunction(
+        "check-match",
+        { token }
+      );
+
+      if (result.matched && result.conversationId) {
+        await openChat(result.conversationId);
+        return;
+      }
+
+    } catch (error) {
+      console.error("Pemeriksaan pasangan:", error);
+
+      if (!cancelRequested) {
+        $("homeStatus").textContent =
+          "Koneksi terganggu. Mencoba kembali...";
+      }
+    }
+  }
+}
+
+// =========================
+// REPLY SYSTEM
+// =========================
+
+function setReplyTarget(message) {
+  if (!message) return;
+
+  replyingTo = message;
+
+  $("replyPreview").hidden = false;
+
+  $("replySender").textContent = message.isMine
+    ? "Membalas pesan kamu"
+    : "Membalas pesan";
+
+  $("replyText").textContent = message.content;
+
+  $("messageInput").focus();
+}
+
+function cancelReply() {
+  replyingTo = null;
+  $("replyPreview").hidden = true;
+  $("replyText").textContent = "";
+}
+
+$("cancelReplyBtn").addEventListener(
+  "click",
+  cancelReply
+);
+
+// =========================
+// MESSAGE TIME
+// =========================
+
+function formatMessageTime(timestamp) {
+  const date = timestamp ? new Date(timestamp) : new Date();
+
+  if (Number.isNaN(date.getTime())) {
+    return "";
+  }
+
+  return date.toLocaleTimeString("id-ID", {
+    hour: "2-digit",
+    minute: "2-digit",
+    hour12: false
+  });
+}
+
+// =========================
+// DISPLAY MESSAGE
+// =========================
+
+async function deleteMessageFromChat(message, action) {
+  if (!message || !message.id || !conversationId || !token) return;
+
+  const confirmation = action === "everyone"
+    ? "Hapus pesan ini untuk semua orang? Pesan tidak bisa dikembalikan."
+    : "Hapus pesan ini dari tampilanmu saja?";
+
+  if (!confirm(confirmation)) return;
+
+  const currentConversation = conversationId;
+
+  try {
+    const result = await callFunction("delete-message", {
+      token,
+      conversationId: currentConversation,
+      messageId: message.id,
+      action
+    });
+
+    if (conversationId !== currentConversation) return;
+
+    if (!result.success) {
+      throw new Error(
+        result.message || "Pesan gagal dihapus."
+      );
+    }
+
+    const item = document.querySelector(
+      `[data-message-id="${message.id}"]`
+    );
+
+    if (item) {
+      const card = item.querySelector(".photo-message-card");
+
+      if (card?.photoCountdownInterval) {
+        clearInterval(card.photoCountdownInterval);
+      }
+
+      item.remove();
+    }
+
+    knownMessages.delete(message.id);
+    messageCache.delete(message.id);
+
+    setChatNotice(
+      action === "everyone"
+        ? "Pesan berhasil dihapus untuk semua orang."
+        : "Pesan berhasil dihapus dari tampilanmu.",
+      2600
+    );
+
+  } catch (error) {
+    setChatNotice(error.message || "Gagal menghapus pesan.", 4000);
+  }
+}
+
+function addMessage(message) {
+  if (!message || !message.id) return;
+
+  if (knownMessages.has(message.id)) return;
+
+  knownMessages.add(message.id);
+  messageCache.set(message.id, message);
+
+  const item = document.createElement("div");
+  item.className = "message";
+  item.dataset.messageId = message.id;
+
+  if (message.isMine) {
+    item.classList.add("mine");
+  }
+
+  if (message.message_type === "photo") {
+    item.classList.add("has-photo");
+  }
+
+  const contextMenu = document.createElement("div");
+  contextMenu.className = "message-context-menu";
+  contextMenu.style.display = "none";
+
+  const deleteOption = document.createElement("button");
+  deleteOption.type = "button";
+  deleteOption.className = "message-context-option";
+
+  const deleteOptionLeft = document.createElement("span");
+  deleteOptionLeft.className = "context-option-label";
+  deleteOptionLeft.append(createTrashIcon(15), document.createTextNode("Hapus pesan"));
+
+  deleteOption.append(deleteOptionLeft, createChevronRightIcon());
+
+  const deleteSubmenu = document.createElement("div");
+  deleteSubmenu.className = "message-delete-submenu";
+  deleteSubmenu.style.display = "none";
+
+  const hideButton = document.createElement("button");
+  hideButton.type = "button";
+  hideButton.className = "delete-choice-btn";
+  hideButton.textContent = "Hapus untuk saya";
+
+  hideButton.addEventListener("click", event => {
+    event.stopPropagation();
+    contextMenu.style.display = "none";
+    item.classList.remove("menu-open");
+    deleteOption.classList.remove("expanded", "is-red-flash");
+    deleteMessageFromChat(message, "me");
+  });
+
+  deleteSubmenu.appendChild(hideButton);
+
+  let deleteEveryoneButton = null;
+
+  if (message.isMine) {
+    deleteEveryoneButton = document.createElement("button");
+    deleteEveryoneButton.type = "button";
+    deleteEveryoneButton.className = "delete-choice-btn danger-choice";
+    deleteEveryoneButton.textContent = "Hapus untuk semua orang";
+
+    bindTransientFlash(deleteEveryoneButton, "is-red-flash", 150);
+
+    deleteEveryoneButton.addEventListener("click", event => {
+      event.stopPropagation();
+      deleteEveryoneButton.classList.remove("is-red-flash");
+      contextMenu.style.display = "none";
+      item.classList.remove("menu-open");
+      deleteOption.classList.remove("expanded", "is-red-flash");
+      deleteMessageFromChat(message, "everyone");
+    });
+
+    deleteSubmenu.appendChild(deleteEveryoneButton);
+  }
+
+  bindTransientFlash(deleteOption, "is-red-flash", 150);
+
+  deleteOption.addEventListener("click", event => {
+    event.stopPropagation();
+
+    const isOpen = deleteSubmenu.style.display === "flex";
+
+    deleteSubmenu.style.display = isOpen ? "none" : "flex";
+    deleteOption.classList.toggle("expanded", !isOpen);
+    if (isOpen) {
+      deleteOption.classList.remove("is-red-flash");
+    }
+  });
+
+  contextMenu.append(
+    deleteOption,
+    deleteSubmenu
+  );
+
+  if (message.reply) {
+    const quote = document.createElement("div");
+    quote.className = "message-reply";
+
+    const replyContent =
+      message.reply.message_type === "photo"
+        ? "Foto"
+        : message.reply.content;
+
+    quote.textContent =
+      (message.reply.isMine ? "Kamu: " : "Mereka: ") +
+      replyContent;
+
+    quote.addEventListener("click", () => {
+      const original = document.querySelector(
+        `[data-message-id="${message.reply.id}"]`
+      );
+
+      if (original) {
+        original.scrollIntoView({
+          behavior: "smooth",
+          block: "center"
+        });
+
+        original.classList.add("message-highlight");
+
+        setTimeout(() => {
+          original.classList.remove("message-highlight");
+        }, 1200);
+      }
+    });
+
+    item.appendChild(quote);
+  }
+
+  let messageTarget = null;
+
+  if (message.message_type === "photo") {
+    const card = document.createElement("div");
+    card.className = "photo-message-card";
+
+    const header = document.createElement("button");
+    header.type = "button";
+    header.className = "photo-message-header";
+
+    const icon = document.createElement("span");
+    icon.className = "photo-message-icon";
+    icon.textContent = "▧";
+
+    const title = document.createElement("span");
+    title.className = "photo-message-title";
+    title.textContent = "Foto";
+
+    const arrow = document.createElement("span");
+    arrow.className = "photo-message-arrow";
+    arrow.textContent = "›";
+
+    const view = document.createElement("div");
+    view.className = "photo-view";
+
+    const expired =
+      message.photo_expires_at &&
+      new Date(message.photo_expires_at).getTime() <= Date.now();
+
+    if (expired) {
+      const status = document.createElement("div");
+      status.className = "photo-expired";
+      status.textContent = "Foto sudah kedaluwarsa";
+      view.appendChild(status);
+      header.disabled = true;
+    } else if (message.isMine) {
+      header.addEventListener("click", () => {
+        setChatNotice("Foto hanya dapat dibuka oleh penerima.", 3000);
+      });
+    } else {
+      header.addEventListener("click", () => {
+        if (typeof openReceivedPhoto === "function") {
+          openReceivedPhoto(message, card, header);
+        }
+      });
+    }
+
+    header.append(icon, title, arrow);
+    card.append(header, view);
+    item.appendChild(card);
+
+    messageTarget = card;
+
+  } else {
+    const content = document.createElement("div");
+    content.className = "message-content";
+    content.textContent = message.content;
+
+    item.appendChild(content);
+
+    messageTarget = content;
+  }
+
+  const time = document.createElement("div");
+  time.className = "message-time";
+  time.textContent = formatMessageTime(message.created_at);
+
+  item.appendChild(time);
+  item.appendChild(contextMenu);
+
+  if (messageTarget) {
+    messageTarget.addEventListener("click", event => {
+      if (event.target.closest("button")) return;
+
+      event.stopPropagation();
+
+      closeAllMessageMenus(item);
+
+      const isOpen = contextMenu.style.display !== "none";
+
+      contextMenu.style.display = isOpen ? "none" : "flex";
+      item.classList.toggle("menu-open", !isOpen);
+      deleteSubmenu.style.display = "none";
+      deleteOption.classList.remove("expanded", "is-red-flash");
+      if (deleteEveryoneButton) {
+        deleteEveryoneButton.classList.remove("is-red-flash");
+      }
+    });
+  }
+
+  contextMenu.addEventListener("click", event => {
+    event.stopPropagation();
+  });
+
+  document.addEventListener("click", event => {
+    if (!item.contains(event.target)) {
+      contextMenu.style.display = "none";
+      item.classList.remove("menu-open");
+      deleteSubmenu.style.display = "none";
+      deleteOption.classList.remove("expanded", "is-red-flash");
+      if (deleteEveryoneButton) {
+        deleteEveryoneButton.classList.remove("is-red-flash");
+      }
+    }
+  });
+
+  $("messages").appendChild(item);
+
+  const picker = document.createElement("div");
+  picker.className = "message-reaction-picker";
+  picker.style.display = "none";
+
+  REACTION_EMOJIS.forEach(emoji => {
+    const button = document.createElement("button");
+    button.type = "button";
+    button.textContent = emoji;
+
+    button.addEventListener("click", event => {
+      event.stopPropagation();
+
+      setMessageReaction(message.id, emoji);
+      picker.style.display = "none";
+    });
+
+    picker.appendChild(button);
+  });
+
+  item._reactionPicker = picker;
+  item.appendChild(picker);
+
+  $("messages").scrollTop =
+    $("messages").scrollHeight;
+
+  loadMessageReactions(message.id);
+}
+
+// =========================
+// SWIPE TO REPLY
+// =========================
+
+const messageContainer = $("messages");
+
+let startX = 0;
+let startY = 0;
+let touchedMessage = null;
+
+messageContainer.addEventListener("touchstart", (event) => {
+  const target = event.target.closest(".message");
+
+  if (!target) return;
+
+  touchedMessage = target;
+  startX = event.touches[0].clientX;
+  startY = event.touches[0].clientY;
+
+}, { passive: true });
+
+messageContainer.addEventListener("touchend", (event) => {
+  if (!touchedMessage) return;
+
+  const deltaX =
+    event.changedTouches[0].clientX - startX;
+
+  const deltaY =
+    event.changedTouches[0].clientY - startY;
+
+  if (
+    deltaX > 60 &&
+    Math.abs(deltaX) > Math.abs(deltaY) * 1.3
+  ) {
+    const id = touchedMessage.dataset.messageId;
+    const selectedMessage = messageCache.get(id);
+
+    if (selectedMessage) {
+      setReplyTarget(selectedMessage);
+    }
+  }
+
+  touchedMessage = null;
+
+}, { passive: true });
+
+// =========================
+// LOAD MESSAGES
+// =========================
+
+function syncPhotoExpiry(message) {
+  if (
+    !message ||
+    message.message_type !== "photo" ||
+    !message.photo_expires_at
+  ) {
+    return;
+  }
+
+  const expiresAt = new Date(
+    message.photo_expires_at
+  ).getTime();
+
+  if (!Number.isFinite(expiresAt)) return;
+
+  const cached = messageCache.get(message.id);
+
+  if (cached) {
+    cached.photo_opened_at = message.photo_opened_at;
+    cached.photo_expires_at = message.photo_expires_at;
+  }
+
+  if (expiresAt > Date.now()) return;
+
+  const item = document.querySelector(
+    `[data-message-id="${message.id}"]`
+  );
+
+  if (!item) return;
+
+  const card = item.querySelector(".photo-message-card");
+  if (!card) return;
+
+  if (card.photoCountdownInterval) {
+    clearInterval(card.photoCountdownInterval);
+    card.photoCountdownInterval = null;
+  }
+
+  const header = card.querySelector(
+    ".photo-message-header"
+  );
+
+  const view = card.querySelector(".photo-view");
+
+  if (header) {
+    header.disabled = true;
+  }
+
+  if (view) {
+    view.innerHTML = "";
+
+    const expired = document.createElement("div");
+    expired.className = "photo-expired";
+    expired.textContent = "Foto sudah kedaluwarsa";
+
+    view.appendChild(expired);
+  }
+}
+
+async function loadMessages() {
+  if (!conversationId || !token) return;
+
+  const currentConversation = conversationId;
+
+  const result = await callFunction(
+    "get-messages",
+    {
+      token,
+      conversationId: currentConversation
+    }
+  );
+
+  if (conversationId !== currentConversation) return;
+
+  if (!result.success) {
+    throw new Error(
+      result.message || result.error || "Gagal mengambil pesan."
+    );
+  }
+
+  if (result.ended === true) {
+    stopMessagePolling();
+    resetTypingState();
+
+    realtimeReady = false;
+
+    if (channel) {
+      const oldChannel = channel;
+      channel = null;
+      await supabase.removeChannel(oldChannel);
+    }
+
+    if (conversationId !== currentConversation) return;
+
+    conversationId = null;
+    cancelReply();
+    setEmojiPanel(false);
+    closeStrangerKeyboard();
+    closeChatActionsMenu();
+
+    knownMessages.clear();
+    messageCache.clear();
+
+    $("messages").innerHTML = "";
+    $("messageInput").value = "";
+    clearChatNotice();
+
+    $("homeStatus").textContent =
+      "Teman bicaramu telah mengakhiri percakapan.";
+
+    setSearchingUI(false);
+
+    showScreen("homeScreen");
+
+    showModal(
+      "Percakapan Berakhir",
+      "<p>Teman bicaramu telah mengakhiri percakapan.</p>",
+      [
+        {
+          label: "Oke",
+          value: true,
+          className: "primary"
+        }
+      ]
+    );
+
+    return;
+  }
+
+  const serverMessageIds = new Set(
+    (result.messages || []).map(message => message.id)
+  );
+
+  for (const messageId of [...knownMessages]) {
+    if (!serverMessageIds.has(messageId)) {
+      const item = document.querySelector(
+        `[data-message-id="${messageId}"]`
+      );
+
+      if (item) {
+        const card = item.querySelector(".photo-message-card");
+
+        if (card?.photoCountdownInterval) {
+          clearInterval(card.photoCountdownInterval);
+        }
+
+        item.remove();
+      }
+
+      knownMessages.delete(messageId);
+      messageCache.delete(messageId);
+    }
+  }
+
+  for (const message of result.messages || []) {
+    if (knownMessages.has(message.id)) {
+      syncPhotoExpiry(message);
+    } else {
+      addMessage(message);
+      syncPhotoExpiry(message);
+    }
+  }
+
+  await refreshAllMessageReactions();
+}
+
+async function loadMessageReactions(messageId) {
+  const activeConversation = conversationId;
+
+  try {
+    const result = await callFunction("message_reactions", {
+      token,
+      conversationId: activeConversation,
+      messageId,
+      action: "list"
+    });
+
+    if (conversationId !== activeConversation) return;
+
+    const counts = result.counts || {};
+    const myReaction = result.myReaction || null;
+
+    messageReactionCache.set(messageId, {
+      counts,
+      myReaction
+    });
+
+    renderMessageReactions(messageId);
+
+  } catch (error) {
+    console.error("Gagal memuat reaksi:", error);
+  }
+}
+
+async function refreshAllMessageReactions() {
+  if (!conversationId || !token || reactionRefreshInProgress) {
+    return;
+  }
+
+  const now = Date.now();
+
+  if (now - lastReactionRefreshAt < 4000) {
+    return;
+  }
+
+  reactionRefreshInProgress = true;
+  lastReactionRefreshAt = now;
+
+  const activeConversation = conversationId;
+  const messageIds = [...messageCache.keys()];
+
+  try {
+    await Promise.all(
+      messageIds.map(messageId =>
+        loadMessageReactions(messageId)
+      )
+    );
+  } finally {
+    reactionRefreshInProgress = false;
+  }
+
+  if (conversationId !== activeConversation) {
+    return;
+  }
+}
+
+function renderMessageReactions(messageId) {
+  const messageElement = document.querySelector(
+    `[data-message-id="${messageId}"]`
+  );
+
+  if (!messageElement) return;
+
+  const state = messageReactionCache.get(messageId);
+  if (!state) return;
+
+  const reactions = REACTION_EMOJIS
+    .map(emoji => ({
+      emoji,
+      count: Number(state.counts[emoji] || 0)
+    }))
+    .filter(item => item.count > 0);
+
+  let container = messageElement.querySelector(
+    ".message-reactions"
+  );
+
+  if (reactions.length === 0) {
+    messageElement.classList.remove("has-reactions");
+    if (container) container.remove();
+    return;
+  }
+
+  messageElement.classList.add("has-reactions");
+
+  if (!container) {
+    container = document.createElement("div");
+    container.className = "message-reactions";
+    messageElement.appendChild(container);
+  }
+
+  container.innerHTML = "";
+
+  reactions.forEach(({ emoji, count }) => {
+    const button = document.createElement("button");
+    button.type = "button";
+    button.className = "message-reaction-item";
+
+    if (state.myReaction === emoji) {
+      button.classList.add("mine");
+    }
+
+    button.textContent = `${emoji} ${count}`;
+
+    button.addEventListener("click", event => {
+      event.stopPropagation();
+      setMessageReaction(messageId, emoji);
+    });
+
+    container.appendChild(button);
+  });
+}
+
+
+async function setMessageReaction(messageId, emoji) {
+  const previous = messageReactionCache.get(messageId);
+
+  try {
+    const action =
+      previous?.myReaction === emoji ? "remove" : "set";
+
+    await callFunction("message_reactions", {
+      token,
+      conversationId,
+      messageId,
+      action,
+      ...(action === "set" ? { reaction: emoji } : {})
+    });
+
+    await loadMessageReactions(messageId);
+    hideReactionPickers();
+
+  } catch (error) {
+    console.error("Gagal menyimpan reaksi:", error);
+    alert("Gagal: " + error.message);
+  }
+}
+
+function hideReactionPickers() {
+  document.querySelectorAll(
+    ".message-reaction-picker"
+  ).forEach(picker => {
+    picker.style.display = "none";
+  });
+}
+
+function showReactionPicker(messageElement) {
+  hideReactionPickers();
+
+  const picker = messageElement._reactionPicker;
+
+  if (!picker) return;
+
+  document.body.appendChild(picker);
+
+  picker.style.position = "fixed";
+  picker.style.zIndex = "99999";
+  picker.style.display = "flex";
+  picker.style.right = "auto";
+  picker.style.bottom = "auto";
+
+  const messageRect = messageElement.getBoundingClientRect();
+  const pickerRect = picker.getBoundingClientRect();
+
+  const left = Math.max(
+    8,
+    Math.min(
+      messageRect.left + 8,
+      window.innerWidth - pickerRect.width - 8
+    )
+  );
+
+  let top = messageRect.bottom + 8;
+
+  if (top + pickerRect.height > window.innerHeight - 8) {
+    top = messageRect.top - pickerRect.height - 8;
+  }
+
+  top = Math.max(
+    8,
+    Math.min(top, window.innerHeight - pickerRect.height - 8)
+  );
+
+  picker.style.left = left + "px";
+  picker.style.top = top + "px";
+}
+
+function cancelReactionPress() {
+  if (reactionPressTimer) {
+    clearTimeout(reactionPressTimer);
+    reactionPressTimer = null;
+  }
+
+  reactionPressTarget = null;
+}
+
+function startReactionPress(event) {
+  if (event.button !== undefined && event.button !== 0) return;
+
+  if (event.target.closest(
+    ".message-reply, .message-reactions, .message-reaction-picker, .message-context-menu"
+  )) return;
+
+  const messageElement = event.target.closest(".message");
+  if (!messageElement) return;
+
+  cancelReactionPress();
+
+  reactionPressTarget = messageElement;
+  reactionStartX = event.clientX;
+  reactionStartY = event.clientY;
+
+  reactionPressTimer = setTimeout(() => {
+    if (reactionPressTarget === messageElement) {
+      closeAllMessageMenus();
+      showReactionPicker(messageElement);
+    }
+
+    reactionPressTimer = null;
+    reactionPressTarget = null;
+
+  }, 550);
+}
+
+function moveReactionPress(event) {
+  if (!reactionPressTimer) return;
+
+  const dx = Math.abs(event.clientX - reactionStartX);
+  const dy = Math.abs(event.clientY - reactionStartY);
+
+  if (dx > 12 || dy > 12) {
+    cancelReactionPress();
+  }
+}
+
+function setupMessageReactions() {
+  const messages = $("messages");
+
+  messages.addEventListener("pointerdown", startReactionPress);
+  messages.addEventListener("pointermove", moveReactionPress);
+  messages.addEventListener("pointerup", cancelReactionPress);
+  messages.addEventListener("pointercancel", cancelReactionPress);
+
+  messages.addEventListener("contextmenu", event => {
+    const messageElement = event.target.closest(".message");
+    if (!messageElement) return;
+
+    event.preventDefault();
+    cancelReactionPress();
+    closeAllMessageMenus();
+    showReactionPicker(messageElement);
+  });
+
+  messages.addEventListener("click", event => {
+    if (!event.target.closest(".message")) {
+      hideReactionPickers();
+    }
+  });
+}
+
+// =========================
+// MESSAGE POLLING
+// =========================
+
+function startMessagePolling() {
+  stopMessagePolling();
+
+  pollTimer = setInterval(async () => {
+    if (polling || !conversationId) return;
+
+    polling = true;
+
+    try {
+      await loadMessages();
+
+    } catch (error) {
+      console.error(
+        "Sinkronisasi pesan gagal:",
+        error
+      );
+
+    } finally {
+      polling = false;
+    }
+
+  }, 2000);
+}
+
+function stopMessagePolling() {
+  if (pollTimer) {
+    clearInterval(pollTimer);
+    pollTimer = null;
+  }
+
+  polling = false;
+}
+
+// =========================
+// REALTIME
+// =========================
+
+function subscribeRealtime() {
+  if (channel) {
+    realtimeReady = false;
+    supabase.removeChannel(channel);
+    channel = null;
+  }
+
+  const subscribedConversation = conversationId;
+
+  channel = supabase
+    .channel("stranger-" + subscribedConversation)
+    .on(
+      "postgres_changes",
+      {
+        event: "INSERT",
+        schema: "public",
+        table: "messages",
+        filter:
+          `conversation_id=eq.${subscribedConversation}`
+      },
+      async () => {
+        if (conversationId !== subscribedConversation) {
+          return;
+        }
+
+        try {
+          await loadMessages();
+
+        } catch (error) {
+          console.error(
+            "Gagal memperbarui pesan:",
+            error
+          );
+        }
+      }
+    )
+    .on(
+      "postgres_changes",
+      {
+        event: "*",
+        schema: "public",
+        table: "message_reactions"
+      },
+      async (payload) => {
+        if (conversationId !== subscribedConversation) {
+          return;
+        }
+
+        const messageId =
+          payload.new?.message_id ||
+          payload.old?.message_id;
+
+        if (!messageId || !messageCache.has(messageId)) {
+          return;
+        }
+
+        await loadMessageReactions(messageId);
+      }
+    )
+    .on(
+      "broadcast",
+      {
+        event: "typing"
+      },
+      ({ payload }) => {
+        if (conversationId !== subscribedConversation) {
+          return;
+        }
+
+        showRemoteTyping(
+          payload?.isTyping === true
+        );
+      }
+    )
+    .subscribe((status) => {
+      if (conversationId !== subscribedConversation) {
+        return;
+      }
+
+      if (status === "SUBSCRIBED") {
+        realtimeReady = true;
+        $("chatStatus").textContent = "Terhubung";
+
+      } else if (
+        status === "CHANNEL_ERROR" ||
+        status === "TIMED_OUT" ||
+        status === "CLOSED"
+      ) {
+        realtimeReady = false;
+
+        $("chatStatus").textContent =
+          "Koneksi realtime terganggu";
+      }
+    });
+}
+
+// =========================
+// OPEN CHAT
+// =========================
+
+async function openChat(id) {
+  resetTypingState();
+  realtimeReady = false;
+
+  setSearchingUI(false);
+  conversationId = id;
+
+  knownMessages.clear();
+  messageCache.clear();
+
+  reactionRefreshInProgress = false;
+  lastReactionRefreshAt = 0;
+
+  cancelReply();
+  setEmojiPanel(false);
+  closeStrangerKeyboard();
+  closeChatActionsMenu();
+
+  $("messages").innerHTML = "";
+  clearChatNotice();
+  $("messageInput").value = "";
+
+  showScreen("chatScreen");
+
+  $("chatStatus").textContent = "Menghubungkan...";
+
+  subscribeRealtime();
+
+  try {
+    await loadMessages();
+
+  } catch (error) {
+    setChatNotice("Gagal memuat pesan: " + error.message, 4500);
+  }
+
+  if (conversationId !== id) return;
+
+  startMessagePolling();
+}
+
+// =========================
+// SEND MESSAGE
+// =========================
+
+async function sendMessage() {
+  const content = $("messageInput").value.trim();
+
+  if (!content || sending || !conversationId) return;
+
+  stopLocalTyping();
+
+  sending = true;
+  $("sendBtn").disabled = true;
+
+  const replyTarget = replyingTo;
+  const currentConversation = conversationId;
+
+  try {
+    const result = await callFunction(
+      "send-message",
+      {
+        token,
+        conversationId: currentConversation,
+        content,
+        replyToId: replyTarget
+          ? replyTarget.id
+          : null
+      }
+    );
+
+    if (conversationId !== currentConversation) {
+      return;
+    }
+
+    if (!result.message) {
+      throw new Error("Server tidak mengembalikan pesan.");
+    }
+
+    addMessage({
+      ...result.message,
+      isMine: true,
+      reply: replyTarget
+        ? {
+            id: replyTarget.id,
+            content: replyTarget.content,
+            isMine: replyTarget.isMine
+          }
+        : null
+    });
+
+    $("messageInput").value = "";
+    emojiCursorStart = 0;
+    emojiCursorEnd = 0;
+    cancelReply();
+
+    setEmojiPanel(false);
+    closeStrangerKeyboard();
+
+    clearChatNotice();
+
+  } catch (error) {
+    setChatNotice("Pesan gagal dikirim: " + error.message, 4500);
+
+  } finally {
+    sending = false;
+    $("sendBtn").disabled = false;
+  }
+}
+
+// =========================
+// REPORT USER
+// =========================
+
+async function reportUser() {
+  if (!conversationId || reporting) return;
+
+  closeChatActionsMenu();
+
+  const currentConversation = conversationId;
+
+  const reasons = [
+    "Pelecehan",
+    "Penipuan",
+    "Spam",
+    "Ancaman",
+    "Pesan tidak pantas",
+    "Lainnya"
+  ];
+
+  const buttons = reasons.map((reason, index) => ({
+    label: `${index + 1}. ${reason}`,
+    value: index,
+    className: "report-choice"
+  }));
+
+  buttons.push({
+    label: "Batal",
+    value: null
+  });
+
+  const selected = await showModal(
+    "Laporkan Pengguna",
+    "<p>Pilih alasan laporan yang paling sesuai.</p>",
+    buttons
+  );
+
+  if (selected === null) return;
+
+  const reason = reasons[selected];
+
+  const confirmed = await showConfirmation(
+    "Konfirmasi Laporan",
+    `Kirim laporan dengan alasan "${reason}"?`,
+    "Kirim Laporan"
+  );
+
+  if (!confirmed) return;
+
+  reporting = true;
+  $("reportBtn").disabled = true;
+  setChatNotice("Mengirim laporan...");
+
+  try {
+    await callFunction(
+      "report-user",
+      {
+        token,
+        conversationId: currentConversation,
+        reason
+      }
+    );
+
+    if (conversationId !== currentConversation) return;
+
+    setChatNotice(
+      "Laporan berhasil dikirim. Terima kasih telah membantu menjaga STRANGER.",
+      3500
+    );
+
+    closeChatActionsMenu();
+
+    await showModal(
+      "Laporan Terkirim",
+      "<p>Terima kasih telah membantu menjaga keamanan STRANGER.</p>",
+      [
+        {
+          label: "Tutup",
+          value: true,
+          className: "primary"
+        }
+      ]
+    );
+
+  } catch (error) {
+    if (conversationId !== currentConversation) return;
+
+    setChatNotice("Laporan gagal dikirim: " + error.message, 4500);
+
+    await showModal(
+      "Laporan Gagal",
+      `<p>${error.message}</p>`,
+      [
+        {
+          label: "Tutup",
+          value: true,
+          className: "primary"
+        }
+      ]
+    );
+
+  } finally {
+    reporting = false;
+    $("reportBtn").disabled = false;
+  }
+}
+
+// =========================
+// NEXT PARTNER
+// =========================
+
+async function nextPartner() {
+  if (!conversationId) return;
+
+  closeChatActionsMenu();
+
+  const confirmed = await showConfirmation(
+    "Cari Orang Baru",
+    "Akhiri percakapan ini dan cari orang baru?",
+    "Ya, Cari Orang Baru"
+  );
+
+  if (!confirmed) return;
+
+  try {
+    stopLocalTyping();
+    resetTypingState();
+    realtimeReady = false;
+
+    stopMessagePolling();
+
+    if (channel) {
+      await supabase.removeChannel(channel);
+      channel = null;
+    }
+
+    conversationId = null;
+    knownMessages.clear();
+    messageCache.clear();
+    cancelReply();
+    setEmojiPanel(false);
+    closeStrangerKeyboard();
+    closeChatActionsMenu();
+
+    $("messages").innerHTML = "";
+    clearChatNotice();
+    $("messageInput").value = "";
+
+    showScreen("homeScreen");
+
+    cancelRequested = false;
+    searchReady = true;
+    searchRequestPromise = null;
+
+    setSearchingUI(true);
+
+    $("homeStatus").textContent =
+      "Mencari orang baru...";
+
+    searchRequestPromise = callFunction(
+      "next-partner",
+      { token }
+    );
+
+    let result;
+
+    try {
+      result = await searchRequestPromise;
+    } finally {
+      searchRequestPromise = null;
+    }
+
+    if (cancelRequested) {
+      await finishCancelSearch();
+      return;
+    }
+
+    if (result.matched && result.conversationId) {
+      await openChat(result.conversationId);
+      return;
+    }
+
+    await waitForMatch();
+
+  } catch (error) {
+    if (cancelRequested) {
+      try {
+        if (token) {
+          await finishCancelSearch();
+        } else {
+          setSearchingUI(false);
+          $("homeStatus").textContent =
+            "Pencarian dibatalkan.";
+        }
+      } catch (cancelError) {
+        setSearchingUI(false);
+        $("homeStatus").textContent =
+          "Pembatalan gagal: " + cancelError.message;
+      }
+
+      return;
+    }
+
+    setSearchingUI(false);
+
+    $("homeStatus").textContent =
+      "Gagal mencari pasangan: " + error.message;
+  }
+}
+
+// =========================
+// END CHAT
+// =========================
+
+async function endChat() {
+  if (!conversationId) return;
+
+  closeChatActionsMenu();
+
+  const confirmed = await showConfirmation(
+    "Akhiri Percakapan",
+    "Kamu yakin ingin mengakhiri percakapan ini?",
+    "Akhiri"
+  );
+
+  if (!confirmed) return;
+
+  const currentConversation = conversationId;
+
+  try {
+    await callFunction(
+      "end-chat",
+      {
+        token,
+        conversationId: currentConversation
+      }
+    );
+
+    if (conversationId !== currentConversation) return;
+
+    stopLocalTyping();
+    resetTypingState();
+    realtimeReady = false;
+
+    stopMessagePolling();
+
+    if (channel) {
+      const oldChannel = channel;
+      channel = null;
+      await supabase.removeChannel(oldChannel);
+    }
+
+    conversationId = null;
+    knownMessages.clear();
+    messageCache.clear();
+    cancelReply();
+    setEmojiPanel(false);
+    closeStrangerKeyboard();
+    closeChatActionsMenu();
+
+    $("messages").innerHTML = "";
+    $("messageInput").value = "";
+    clearChatNotice();
+
+    $("homeStatus").textContent =
+      "Percakapan telah diakhiri.";
+
+    setSearchingUI(false);
+
+    showScreen("homeScreen");
+
+  } catch (error) {
+    setChatNotice("Gagal mengakhiri percakapan: " + error.message, 4500);
+  }
+}
+
+// =========================
+// BUTTON EVENTS
+// =========================
+
+$("startBtn").addEventListener(
+  "click",
+  startSearch
+);
+
+$("sendBtn").addEventListener(
+  "click",
+  handleSendAction
+);
+
+$("photoSelectBtn").addEventListener(
+  "click",
+  () => {
+    closeChatActionsMenu();
+    $("photoInput").click();
+  }
+);
+
+$("photoInput").addEventListener(
+  "change",
+  handlePhotoSelection
+);
+
+$("cancelPhotoBtn").addEventListener(
+  "click",
+  clearSelectedPhoto
+);
+
+$("reportBtn").addEventListener(
+  "click",
+  reportUser
+);
+
+$("nextBtn").addEventListener(
+  "click",
+  nextPartner
+);
+
+$("endBtn").addEventListener(
+  "click",
+  endChat
+);
+
+$("messageInput").addEventListener(
+  "input",
+  handleTypingInput
+);
+
+$("messageInput").addEventListener(
+  "blur",
+  stopLocalTyping
+);
+
+$("messageInput").addEventListener(
+  "keydown",
+  (event) => {
+    if (event.key === "Enter") {
+      event.preventDefault();
+      handleSendAction();
+    }
+  }
+);
+
+setupMessageReactions();
+</script>
+</body>
+</html>
+
