@@ -6,8 +6,11 @@
   <meta name="theme-color" content="#090a0f">
   <meta name="description" content="STRANGER - Anonymous Random Chat.">
   <title>STRANGER</title>
+  <link rel="icon" type="image/png" sizes="192x192" href="./icon-192.png">
+  <link rel="icon" type="image/png" sizes="512x512" href="./icon-512.png">
+  <link rel="apple-touch-icon" href="./icon-192.png">
   <link rel="stylesheet" href="style.css">
-  <link rel="manifest" href="./manifest.json" />
+  <link rel="manifest" href="./manifest.json">
 </head>
 
 <body>
@@ -3712,6 +3715,14 @@ $("messageInput").addEventListener(
 );
 
 setupMessageReactions();
+
+if ("serviceWorker" in navigator) {
+  window.addEventListener("load", () => {
+    navigator.serviceWorker.register("./sw.js").catch((err) => {
+      console.warn("Service worker gagal didaftarkan:", err);
+    });
+  });
+}
 </script>
 </body>
 </html>
